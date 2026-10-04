@@ -6,7 +6,7 @@
 - **Marco e data:** Marco 1, entrega remota até 04/10/2026
 - **Trilha:** (A) API pública de dados abertos
 - **Endereço público do produto:** n.a. neste marco (a publicação em endereço na internet é exigência do Marco 3). O produto roda localmente com o comando do `README.md`. Repositório: https://github.com/FCleyber/ExtensaoAPI
-- **Commit ou tag desta entrega:** [PREENCHER: hash do commit que contém `api1.py`; aparece no GitHub ao lado do último commit]
+- **Commit ou tag desta entrega:** [PREENCHER: hash de 7 caracteres do commit "Marco 1: API 1, README e ficha preenchida", visível na página principal do repositório]
 
 ## Campo 1 — O que funciona hoje
 
@@ -16,7 +16,7 @@ Requisito: Python 3.8+ e internet. Depois de `git clone https://github.com/FCley
 2. Abrir `http://127.0.0.1:8000/ipca?inicio=2026-01&fim=2026-08` e receber só os meses desse intervalo; com formato inválido (por exemplo `?inicio=2026-13`) recebe HTTP 400 com a mensagem de erro.
 3. Abrir `http://127.0.0.1:8000/` e ver a lista de rotas com um exemplo de uso.
 
-Também roda `python -m unittest test_api1 -v` (9 testes, sem internet).
+Também roda `python -m unittest test_api1 -v` (9 testes, sem internet). Os três itens e os testes foram executados em 04/10/2026, a partir de um clone novo do repositório, no Windows 10 com Python 3.11.
 
 ## Campo 2 — O que mudou desde o marco anterior
 
@@ -35,7 +35,10 @@ Neste marco ainda não há contato com o público externo; o `evidencias.csv` es
 
 ## Campo 4 — Obstáculo e replanejamento
 
-[COMPLETAR com o que realmente travou e quanto tempo custou. Pontos que aconteceram e podem entrar, se forem verdade para a equipe: os arquivos de entrega estavam dentro de `modelos/` e o plano estava em `.docx`; foram movidos para a raiz com os nomes oficiais e o plano foi convertido para `plano-de-acao.md` e revisado em 04/10; o escopo foi reduzido a comparar preço com IPCA, deixando o cálculo e a explicação para o Marco 2.]
+- **Estrutura do repositório.** Os modelos estavam dentro de `modelos/` e o plano de ação existia apenas como `.docx`. Como a avaliação é feita pelo repositório, em 04/10 movemos `plano-de-acao.md`, `diario-de-bordo.md`, `evidencias.csv` e `marco-1.md` para a raiz, com os nomes de `03-modelos`, e convertemos o plano para Markdown. Resolvido.
+- **Produto fora do repositório.** O código da API 1 ainda não estava publicado. Em 04/10 foram publicados `api1.py`, `test_api1.py` e o `README.md` com o comando exato, e o conjunto foi testado a partir de um clone novo. Resolvido.
+- **Contato com o público ainda não iniciado.** Replanejamos o cronograma: a primeira rodada passou de 18/10 para até 11/10, e o primeiro contato será um convite para conversar sobre como o comerciante reajusta preços, que não depende do produto estar pronto.
+- **Tempo gasto:** [PREENCHER: horas aproximadas em 04/10 com esses ajustes]
 
 ## Campo 5 — Autopontuação
 
@@ -43,17 +46,17 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 
 | Dimensão | n.a.? | Pts (0–2) | Por quê, em uma linha |
 | :-- | :-- | :-- | :-- |
-| D1 Qualidade técnica | não | [PREENCHER] | [PREENCHER] |
+| D1 Qualidade técnica | não | 2 | A API 1 responde com dados reais do SGS, valida parâmetros (HTTP 400, 404 e 502) e tem 9 testes automatizados passando. |
 | D2 Alcance e adequação ao público | sim | — | Ainda não há como existir neste marco. |
-| D3 Documentação e reprodutibilidade | não | [PREENCHER] | [PREENCHER] |
-| D4 Registro do processo | não | [PREENCHER] | [PREENCHER] |
+| D3 Documentação e reprodutibilidade | não | 2 | O README traz requisitos, comando exato e exemplo de resposta, e foi seguido em um clone novo, no Windows, em 04/10. |
+| D4 Registro do processo | não | 1 | O diário cobre as semanas desde 07/09, mas parte das entradas foi completada na entrega, não no dia, e ainda não há evidências de contato. |
 | D5 Autoavaliação e reflexão | sim | — | Ainda não há como existir neste marco. |
 
 ## Antes de entregar
 
-- [ ] O endereço do produto abre numa máquina que não é a nossa (n.a. neste marco; vale o clone limpo abaixo).
-- [ ] O que o Campo 1 promete foi testado hoje, numa pasta limpa, seguindo só o `README.md`.
-- [ ] O `README.md` corresponde ao que o produto faz agora.
+- [x] O endereço do produto abre numa máquina que não é a nossa (n.a. neste marco; vale o clone limpo, já feito).
+- [x] O que o Campo 1 promete foi testado hoje, numa pasta limpa, seguindo só o `README.md`.
+- [x] O `README.md` corresponde ao que o produto faz agora.
 - [ ] O diário tem entrada de todas as semanas desde o último marco.
-- [ ] Toda evidência do Campo 3 tem data e está registrada em `evidencias.csv`.
+- [x] Toda evidência do Campo 3 tem data e está registrada em `evidencias.csv` (não há evidências ainda).
 - [ ] O commit informado está publicado.
