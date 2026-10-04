@@ -1,107 +1,97 @@
-# Plano de ação — modelo
+# Plano de ação
 
-Rascunho em 11/09, versão final no Marco 1 (02/10). O roteiro completo, com exemplos e o critério de
-cada campo, está no PDF `extensao/plano-de-acao.pdf` — leia antes de preencher.
-
-**Duas páginas bastam.** Plano longo costuma esconder escopo mal resolvido. O que estiver aqui é o
-que será cobrado nos três marcos.
+Rascunho em 11/09, versão final no Marco 1 (02/10).
 
 ---
 
 ## Identificação
 
-- **Equipe:** (nomes e matrículas)
-- **Trilha:** (A) API pública de dados abertos · (B) curadoria e divulgação
-- **Área temática da PREX:**
-- **Por que essa área,** em uma linha:
-- **Repositório:**
+* **Equipe:** Samuel Luiz [567412], Diego Lopes [556906], Fernando Cleyber [564872]
+* **Trilha:** (A) API pública de dados abertos
+* **Área temática da PREX:** Economia e cidadania / defesa do consumidor
+* **Por que essa área, em uma linha:** Dados públicos de inflação podem ajudar pequenos comerciantes a compreender se os reajustes de preços acompanharam ou ficaram acima/abaixo da inflação do período.
+* **Repositório:** https://github.com/FCleyber/ExtensaoAPI
 
 ## Campo 1 — O problema
 
-Uma frase, do ponto de vista de quem tem a dificuldade. Precisa ter uma pessoa dentro. Se a frase
-fala de tecnologia e não de gente, ainda é a sua solução disfarçada.
+Um pequeno comerciante que precisa reajustar o preço de um produto não consegue comparar de forma simples o aumento aplicado com a inflação acumulada no mesmo período.
 
 ## Campo 2 — O público externo
 
-Quem é, onde está, quantos são.
-
-- **Quem é:**
-- **Duas ou três pessoas reais desse grupo:**
-- **Já falamos com alguma? Quando falaremos?**
-- **Como essa pessoa vai descobrir que o produto existe:**
+* **Quem é:** Pequenos comerciantes locais de Fortaleza que realizam reajustes de preços e têm interesse em compreender sua relação com a inflação, sem necessidade de conhecimento técnico em economia.
+* **Duas ou três pessoas reais desse grupo:** Pelo menos três comerciantes locais que serão contatados pela equipe para testar e avaliar o produto.
+* **Já falamos com alguma? Quando falaremos?** Ainda não. A primeira tentativa de contato está prevista para **18/10/2026** e uma segunda tentativa para **25/10/2026**. As tentativas e respectivas datas serão registradas no diário do projeto, independentemente de haver resposta.
+* **Como essa pessoa vai descobrir que o produto existe:** Por meio de contato direto da equipe e, posteriormente, pela divulgação em canais de entidades estudantis e redes sociais relacionadas a negócios, economia e empreendedorismo.
 
 ## Campo 3 — Trilha e produto
 
-- **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:**
-- **O que NÃO faz parte:**
+* **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:** Um serviço de APIs públicas que consulta o IPCA e permite comparar a variação do preço de um produto com a inflação acumulada em um período, apresentando o resultado em linguagem simples; ficará publicado no repositório público da equipe.
+
+O produto será desenvolvido em duas etapas:
+
+* **API 1:** consulta o IPCA disponibilizado pelo Banco Central e retorna os dados em JSON de forma organizada.
+
+* **API 2:** recebe preço inicial, preço final e dois períodos, calcula a variação do preço e o IPCA acumulado, compara os resultados e utiliza um LLM apenas para explicar o resultado em linguagem simples.
+
+* **O que NÃO faz parte:**
+
+  * Determinar preço ideal para produtos.
+  * Recomendar decisões financeiras ou comerciais individuais.
+  * Prever preços futuros.
+  * Estabelecer relação de causa e efeito entre inflação e o preço de um produto específico.
+  * Fazer análise contábil ou financeira de empresas.
+  * Utilizar dados da CVM, como DFP ou ITR.
+  * Analisar décadas de histórico.
+  * Explicar todas as causas da inflação.
+  * Utilizar outros indicadores macroeconômicos inicialmente, caso não sejam necessários ao produto.
+  * Substituir orientação econômica ou profissional.
 
 ## Campo 4 — Fontes de dados
 
-Uma tabela por fonte.
+|                                                                       |                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| :-------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nome e órgão**                                                      | Sistema Gerenciador de Séries Temporais (SGS) — Banco Central do Brasil                                                                                                                                                                                                                                                                                                                                                                      |
+| **Endereço**                                                          | `https://api.bcb.gov.br/dados/serie/bcdata.sgs.{código}/dados`                                                                                                                                                                                                                                                                                                                                                                               |
+| **Licença — e o que ela permite ao nosso produto**                    | Os conjuntos de dados do IPCA disponibilizados no Portal de Dados Abertos do Banco Central estão sob a Open Data Commons Open Database License (ODbL). A licença permite utilizar, copiar, transformar e distribuir a base, observadas suas condições de atribuição e compartilhamento. O projeto identificará o Banco Central como fonte dos dados e observará os requisitos da licença caso dados ou bases derivadas sejam redistribuídos. |
+| **Atualização — periodicidade declarada e data do dado mais recente** | Periodicidade mensal. A data do dado mais recente será registrada pela equipe no momento da implementação da API 1, considerando a última observação disponível na fonte utilizada.                                                                                                                                                                                                                                                          |
+| **Dado pessoal? — se sim, granularidade e o que será agregado**       | Não. O IPCA é uma série estatística agregada e não contém dados pessoais de indivíduos.                                                                                                                                                                                                                                                                                                                                                      |
 
-| | |
-| :-- | :-- |
-| Nome e órgão | |
-| Endereço | |
-| Licença — e o que ela permite ao nosso produto | |
-| Atualização — periodicidade declarada e data do dado mais recente | |
-| Dado pessoal? — se sim, granularidade e o que será agregado | |
+O Banco Central informa, para suas séries do SGS relacionadas ao IPCA, periodicidade mensal e disponibilização por meio da interface JSON do BCData/SGS.
 
 ## Campo 5 — Papéis
 
-Um por integrante, com responsabilidade verificável. Quando um papel girar, registre no diário.
-
-| Integrante | Papel | O que fica sob sua responsabilidade |
-| :-- | :-- | :-- |
-| | | |
-| | | |
-| | | |
+| **Integrante**       | **Papel**                   | **O que fica sob sua responsabilidade**                                                                                  |
+| :------------------- | :-------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| **Diego Lopes**      | Integração de dados         | Consultar o BACEN, implementar a coleta do IPCA e garantir que os dados estejam disponíveis para a API.                  |
+| **Samuel Luiz**      | Desenvolvimento da API 2    | Implementar os cálculos de variação de preço e IPCA acumulado e integrar o LLM para gerar a explicação.                  |
+| **Fernando Cleyber** | Produto e validação externa | Definir o caso de uso, organizar os testes com comerciantes, registrar os contatos e acompanhar a divulgação do produto. |
 
 ## Campo 6 — Cronograma
 
-Uma frase por marco, dizendo o que estará pronto. Nada de "avançar no projeto".
+| **Data**                 | **O que estará pronto**                                                                                                                                                     |
+| :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **02/10 (Marco 1)**      | API 1 funcional, realizando uma consulta ao IPCA do BACEN e retornando os dados em JSON de forma organizada, com documentação básica do endpoint.                           |
+| **13/11 (Marco 2)**      | API 2 funcional, recebendo preços e períodos, calculando a variação do preço e o IPCA acumulado e retornando uma comparação acompanhada de explicação em linguagem simples. |
+| **27/11 (Marco 3)**      | Produto testado com o público externo, com pelo menos três tentativas documentadas de contato com comerciantes e registro dos retornos obtidos.                             |
+| **04/12 (Socialização)** | Apresentação do projeto e demonstração das APIs funcionando.                                                                                                                |
 
-| Data | O que estará pronto |
-| :-- | :-- |
-| 02/10 (Marco 1) | |
-| 13/11 (Marco 2) | |
-| 27/11 (Marco 3) | |
-| 04/12 (Socialização) | |
-
-**Dependências externas.** O que depende de terceiro (cadastro, chave de acesso, autorização,
-resposta de parceiro) e o que fazemos se falhar. Faça *esta semana* o pedido que demora.
+**Dependências externas.** O projeto não depende de chave de acesso ao BACEN. A validação externa depende da disponibilidade dos comerciantes contatados e a divulgação depende da disponibilidade dos canais estudantis. Caso não haja resposta dos comerciantes, as tentativas de contato e suas datas serão registradas no diário e a equipe continuará os testes internos do produto.
 
 ## Campo 7 — Indicadores
 
-Defina agora, antes de executar. Indicador sem instrumento de coleta é intenção. Cada coleta vira
-depois uma linha do `evidencias.csv`.
-
-| | Medida | Como será coletada | Valor que seria bom |
-| :-- | :-- | :-- | :-- |
-| Contagem | | | |
-| Qualitativa | | | |
+|                 | **Medida**                                                   | **Como será coletada**                                                                                                               | **Valor que seria bom**                                         |
+| :-------------- | :----------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| **Contagem**    | Número de chamadas realizadas à API 2                        | Registro das requisições realizadas durante os testes e demonstrações                                                                | Mais de 20 chamadas                                             |
+| **Qualitativa** | Compreensão da comparação entre a variação do preço e o IPCA | Pergunta direta ao usuário externo após o teste: “Você conseguiu entender se o preço aumentou acima, abaixo ou próximo da inflação?” | Pelo menos 2 pessoas responderem que compreenderam a comparação |
 
 ## Antes de entregar: a prova dos nove
 
-- [ ] Riscamos tudo o que não conseguiríamos terminar até 13/11.
-- [ ] O que sobrou ainda ajuda alguém.
-- [ ] Uma pessoa de fora entende o Campo 1 e o Campo 3 sem explicação oral.
-- [ ] A data da primeira conversa com o público está marcada.
-- [ ] Os indicadores podem ser coletados sem depender de terceiro.
+* [x] Riscamos tudo o que não conseguiríamos terminar até 13/11.
+* [x] O que sobrou ainda ajuda alguém.
+* [x] Uma pessoa de fora entende o Campo 1 e o Campo 3 sem explicação oral.
+* [x] A data da primeira conversa com o público está marcada: **18/10/2026**.
+* [x] Os indicadores podem ser coletados sem depender de terceiro.
 
 ---
 
-## Exemplo de campo preenchido
-
-Para calibrar o tamanho e o tom — é o nível de concretude esperado, não um modelo a copiar.
-
-> **Campo 1 — O problema.** Uma coordenadora pedagógica que quer comparar sua escola com a média do
-> município precisa baixar uma planilha de 300 mil linhas e saber filtrar.
->
-> **Campo 3 — Trilha e produto.** Uma API pública que devolve, por escola de Fortaleza, matrículas e
-> infraestrutura do censo mais recente, com documentação e exemplo pronto para copiar. **Não** inclui
-> série histórica nem painel visual.
->
-> **Campo 7 — Indicadores.** Contagem: acessos únicos ao endereço público, pelo registro do
-> servidor, entre 02/10 e 27/11; seria bom passar de 30. Qualitativa: retorno escrito de pelo menos
-> duas pessoas de fora que usaram, coletado por e-mail depois do primeiro contato.
+**Nota de escopo:** O projeto foi reduzido para concentrar-se em uma comparação objetiva entre a variação de preço de um produto e o IPCA acumulado em dois períodos. A API 1 será deliberadamente simples no Marco 1; a parte de cálculo, comparação e explicação por LLM ficará para o Marco 2.
