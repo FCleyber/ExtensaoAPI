@@ -52,11 +52,5 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 | D4 Registro do processo | não | 1 | O diário cobre as semanas desde 07/09, mas parte das entradas foi completada na entrega, não no dia, e ainda não há evidências de contato. |
 | D5 Autoavaliação e reflexão | sim | — | Ainda não há como existir neste marco. |
 
-## Antes de entregar
-
-- [x] O endereço do produto abre numa máquina que não é a nossa (n.a. neste marco; vale o clone limpo, já feito).
-- [x] O que o Campo 1 promete foi testado hoje, numa pasta limpa, seguindo só o `README.md`.
-- [x] O `README.md` corresponde ao que o produto faz agora.
-- [ ] O diário tem entrada de todas as semanas desde o último marco.
 - [x] Toda evidência do Campo 3 tem data e está registrada em `evidencias.csv` (não há evidências ainda).
 - [ ] O commit informado está publicado.
