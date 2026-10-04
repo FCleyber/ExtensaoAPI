@@ -6,7 +6,7 @@ Rascunho em 11/09, versão final no Marco 1 (entrega remota, prazo 04/10).
 
 - **Equipe:** Samuel Luiz [567412], Diego Lopes [556906], Fernando Cleyber [564872]
 - **Trilha:** (A) API pública de dados abertos
-- **Área temática da PREX:** Direitos Humanos e Justiça**
+- **Área temática da PREX:**Direitos Humanos e Justiça**
 - **Por que essa área, em uma linha:** Dados públicos de inflação podem ajudar pequenos comerciantes a compreender se os reajustes de preços acompanharam ou ficaram acima/abaixo da inflação do período.
 - **Repositório:** https://github.com/FCleyber/ExtensaoAPI
 
