@@ -51,6 +51,3 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 | D3 Documentação e reprodutibilidade | não | 2 | O README traz requisitos, comando exato e exemplo de resposta, e foi seguido em um clone novo, no Windows, em 04/10. |
 | D4 Registro do processo | não | 1 | O diário cobre as semanas desde 07/09, mas parte das entradas foi completada na entrega, não no dia, e ainda não há evidências de contato. |
 | D5 Autoavaliação e reflexão | sim | — | Ainda não há como existir neste marco. |
-
-- [x] Toda evidência do Campo 3 tem data e está registrada em `evidencias.csv` (não há evidências ainda).
-- [ ] O commit informado está publicado.
