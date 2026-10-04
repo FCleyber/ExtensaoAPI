@@ -6,7 +6,7 @@
 - **Marco e data:** Marco 1, entrega remota até 04/10/2026
 - **Trilha:** (A) API pública de dados abertos
 - **Endereço público do produto:** n.a. neste marco (a publicação em endereço na internet é exigência do Marco 3). O produto roda localmente com o comando do `README.md`. Repositório: https://github.com/FCleyber/ExtensaoAPI
-- **Commit ou tag desta entrega:** [PREENCHER: hash de 7 caracteres do commit "Marco 1: API 1, README e ficha preenchida", visível na página principal do repositório]
+- **Commit ou tag desta entrega:** b609c32
 
 ## Campo 1 — O que funciona hoje
 
