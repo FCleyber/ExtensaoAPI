@@ -1,79 +1,85 @@
-# Diário de bordo — modelo
+# Diário de bordo
 
-Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro que:
+Registro semanal do trabalho da equipe (Samuel Luiz, Diego Lopes e Fernando Cleyber). Comprova as horas de execução autônoma e alimenta a dimensão D4 da rubrica.
 
-- **comprova as 28 horas** de execução autônoma por integrante (as horas de extensão que acontecem
-  fora dos encontros de sexta);
-- alimenta a dimensão **D4 da rubrica** (registro do processo);
-- é conferido contra a **autoavaliação** de cada um em 04/12;
-- vira matéria-prima dos indicadores de **condições de desenvolvimento** e **impacto na formação**.
-
-## Como preencher
-
-- **Uma entrada por semana**, mesmo nas semanas em que nada andou — principalmente nessas.
-- **Cinco linhas bastam.** Diário longo não é lido nem pela própria equipe.
-- **Escreva no dia.** Diário reconstruído em novembro é ficção, e se percebe.
-- Quando um papel mudar de mão, registre aqui.
-- Obstáculo é informação, não desculpa: anote o que travou e por quanto tempo.
+**Nota de honestidade:** as entradas de 07/09 a 28/09 foram completadas em 04/10/2026, a partir do histórico do repositório e da memória da equipe, e não no dia. As entradas seguintes serão escritas na própria semana.
 
 ---
 
 ## Entradas
 
-### Semana de DD/MM
+### Semana de 07/09
 
-**Quem trabalhou e quanto:** nome — Xh; nome — Xh
+**Quem trabalhou e quanto:** [PREENCHER: nome — Xh; nome — Xh]
 
 **O que foi feito:**
--
--
+- Escolha do tema (inflação e reajuste de preços para pequenos comerciantes) e da trilha A (API pública de dados abertos).
+- Rascunho do plano de ação, datado de 11/09.
 
-**Obstáculo:** (o que travou, quanto tempo custou, se foi resolvido)
+**Obstáculo:** [PREENCHER ou escrever "nenhum"]
 
-**Contato com o público:** (com quem, por que meio, o que disseram)
+**Contato com o público:** nenhum.
 
-**Evidência coletada:** (número, mensagem, print, lista — e onde está guardada)
+**Evidência coletada:** rascunho do plano de ação (versão em `.docx`, depois convertida para `plano-de-acao.md`).
 
-**Próxima semana:**
+**Próxima semana:** [PREENCHER]
 
 ---
 
-### Semana de DD/MM
+### Semana de 14/09
 
-**Quem trabalhou e quanto:**
+**Quem trabalhou e quanto:** [PREENCHER: nome — Xh; nome — Xh]
 
 **O que foi feito:**
--
+- [PREENCHER o que foi feito; se nada andou, escrever isso]
 
-**Obstáculo:**
+**Obstáculo:** [PREENCHER ou escrever "nenhum"]
 
-**Contato com o público:**
+**Contato com o público:** nenhum.
 
-**Evidência coletada:**
+**Evidência coletada:** nenhuma.
 
-**Próxima semana:**
+**Próxima semana:** [PREENCHER]
 
 ---
 
-## Exemplo de entrada preenchida
+### Semana de 21/09
 
-### Semana de 22/09
-
-**Quem trabalhou e quanto:** Ana — 3h; Bruno — 2h; Carla — 2h30
+**Quem trabalhou e quanto:** [PREENCHER: nome — Xh; nome — Xh]
 
 **O que foi feito:**
-- Baixamos o censo escolar de 2024 e contamos vazios nas colunas de infraestrutura (Ana).
-- Primeira rota da API respondendo com dados fixos (Bruno).
-- Escrevemos o e-mail para a coordenadora da escola do bairro (Carla).
+- Os modelos da disciplina (pasta `modelos/`) foram adicionados ao repositório.
+- [PREENCHER qualquer outra coisa que tenha sido feita nesta semana]
 
-**Obstáculo:** o arquivo veio com separador `;` e codificação latin-1; perdemos ~1h até
-descobrir. Resolvido.
+**Obstáculo:** [PREENCHER ou escrever "nenhum"]
 
-**Contato com o público:** e-mail enviado à coordenadora em 24/09, sem resposta ainda.
+**Contato com o público:** nenhum.
 
-**Evidência coletada:** cópia do e-mail enviado, em `evidencias/2026-09-24-email.pdf`.
+**Evidência coletada:** histórico de commits do repositório (modelos adicionados por upload nesta semana).
 
-**Próxima semana:** trocar dados fixos pelos reais; cobrar resposta do e-mail.
+**Próxima semana:** fechar o plano de ação e preparar o Marco 1.
+
+---
+
+### Semana de 28/09 (entrega do Marco 1 em 04/10)
+
+**Quem trabalhou e quanto:** [PREENCHER: nome — Xh; nome — Xh]
+
+**O que foi feito:**
+- Plano de ação finalizado e convertido para `plano-de-acao.md`: dados da série 433 do SGS conferidos no próprio SGS (IPCA, variação percentual mensal, fonte IBGE, disponível desde 01/1980, último valor ago/2026 = −0,32%) e licença ODbL confirmada na página do conjunto no Portal de Dados Abertos do Banco Central.
+- Escopo, regra de cálculo, cronograma e indicadores revisados no plano; primeira rodada de contato antecipada de 18/10 para até 11/10.
+- Repositório reorganizado: `plano-de-acao.md`, `diario-de-bordo.md`, `evidencias.csv` e `marco-1.md` movidos para a raiz, com os nomes de `03-modelos`.
+- API 1 publicada (`api1.py`, em Python, sem dependências): devolve o IPCA mensal em JSON, com filtro por intervalo de meses e tratamento de erro. Acompanha `test_api1.py` (9 testes) e o `README.md` com o comando exato. O código foi elaborado com apoio do Claude (IA) e revisado, executado e testado pela equipe.
+- Teste feito a partir de um clone novo do repositório, no Windows com Python 3.11: a API respondeu em `http://127.0.0.1:8000/ipca` e os 9 testes passaram.
+- Ficha `marco-1.md` preenchida.
+
+**Obstáculo:** os arquivos de entrega estavam dentro de `modelos/`, o plano só existia em `.docx` e o código da API 1 não estava no repositório. Tudo resolvido em 04/10. [PREENCHER: tempo aproximado gasto]
+
+**Contato com o público:** nenhum ainda.
+
+**Evidência coletada:** saída dos 9 testes passando (04/10/2026) e histórico de commits do repositório.
+
+**Próxima semana:** primeira rodada de contato com comerciantes de Fortaleza (até 11/10), registrando cada tentativa em `evidencias.csv`; começar a API 2 (cálculo da variação de preço e do IPCA acumulado).
 
 ---
 
@@ -86,5 +92,4 @@ descobrir. Resolvido.
 | Lista de presença ou inscrição em oficina | Retorno de colega da própria turma |
 | Retorno escrito, mesmo curto | Número coletado uma vez, no dia da apresentação |
 
-Guarde as evidências numa pasta do repositório, com data no nome do arquivo. Evidência é subproduto
-de rotina, não tarefa da última semana.
+Guarde as evidências no repositório, com data no nome do arquivo.
