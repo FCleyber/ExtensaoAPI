@@ -38,7 +38,7 @@ Neste marco ainda não há contato com o público externo; o `evidencias.csv` es
 - **Estrutura do repositório.** Os modelos estavam dentro de `modelos/` e o plano de ação existia apenas como `.docx`. Como a avaliação é feita pelo repositório, em 04/10 movemos `plano-de-acao.md`, `diario-de-bordo.md`, `evidencias.csv` e `marco-1.md` para a raiz, com os nomes de `03-modelos`, e convertemos o plano para Markdown. Resolvido.
 - **Produto fora do repositório.** O código da API 1 ainda não estava publicado. Em 04/10 foram publicados `api1.py`, `test_api1.py` e o `README.md` com o comando exato, e o conjunto foi testado a partir de um clone novo. Resolvido.
 - **Contato com o público ainda não iniciado.** Replanejamos o cronograma: a primeira rodada passou de 18/10 para até 11/10, e o primeiro contato será um convite para conversar sobre como o comerciante reajusta preços, que não depende do produto estar pronto.
-- **Tempo gasto:** [PREENCHER: horas aproximadas em 04/10 com esses ajustes]
+- **Tempo gasto:** Cerca de 4 horas em 04/10
 
 ## Campo 5 — Autopontuação
 
