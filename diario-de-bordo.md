@@ -73,7 +73,7 @@ Registro semanal do trabalho da equipe (Samuel Luiz, Diego Lopes e Fernando Cley
 - Teste feito a partir de um clone novo do repositório, no Windows com Python 3.11: a API respondeu em `http://127.0.0.1:8000/ipca` e os 9 testes passaram.
 - Ficha `marco-1.md` preenchida.
 
-**Obstáculo:** os arquivos de entrega estavam dentro de `modelos/`, o plano só existia em `.docx` e o código da API 1 não estava no repositório. Tudo resolvido em 04/10. [PREENCHER: tempo aproximado gasto]
+**Obstáculo:** os arquivos de entrega estavam dentro de `modelos/`, o plano só existia em `.docx` e o código da API 1 não estava no repositório. Tudo resolvido em 04/10.
 
 **Contato com o público:** nenhum ainda.
 
@@ -84,7 +84,6 @@ Registro semanal do trabalho da equipe (Samuel Luiz, Diego Lopes e Fernando Cley
 ---
 
 ## O que conta como evidência
-
 | Serve | Não serve |
 | :-- | :-- |
 | Mensagem de alguém de fora que usou | Captura de tela rodando na sua máquina |
