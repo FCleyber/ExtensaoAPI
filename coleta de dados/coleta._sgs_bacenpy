@@ -1,0 +1,119 @@
+"""
+API pública, sem autenticação:
+https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados
+
+Uso:
+    python coleta_sgs_bacen.py
+    python coleta_sgs_bacen.py --inicio 01/01/2015 --fim 30/09/2026
+    python coleta_sgs_bacen.py --series ipca selic dolar
+"""
+
+import argparse
+import json
+import time
+from pathlib import Path
+
+import requests
+
+# Código SGS -> (nome do indicador, descrição curta)
+SERIES = {
+    "ipca": (433, "IPCA - variação mensal (%)"),
+    "ipca15": (7478, "IPCA-15 - prévia mensal (%)"),
+    "igpm": (189, "IGP-M - variação mensal (%)"),
+    "selic": (432, "Meta Selic (% a.a.)"),
+    "cdi": (12, "CDI - taxa diária (%)"),
+    "juros_pf": (20714, "Taxa média de juros - crédito livre PF (% a.a.)"),
+    "juros_pj": (20715, "Taxa média de juros - crédito livre PJ (% a.a.)"),
+    "dolar": (1, "Dólar comercial - venda (R$)"),
+    "ibcbr": (24364, "IBC-Br - índice de atividade econômica"),
+    "prod_industrial": (21859, "Produção industrial - variação mensal (%)"),
+    "desemprego": (24369, "Taxa de desocupação - PNAD Contínua (%)"),
+    "massa_renda": (28544, "Massa de rendimento real habitual (R$ milhões)"),
+    "divida_liquida": (4513, "Dívida líquida do setor público (% PIB)"),
+    "resultado_primario": (5793, "Resultado primário do setor público (R$ milhões)"),
+}
+
+BASE_URL = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados"
+
+
+def coletar_serie(nome: str, codigo: int, inicio: str | None, fim: str | None,
+                   timeout: int = 20) -> list[dict]:
+    """Busca uma série do SGS. Datas no formato dd/mm/aaaa."""
+    url = BASE_URL.format(codigo=codigo)
+    params = {"formato": "json"}
+    if inicio:
+        params["dataInicial"] = inicio
+    if fim:
+        params["dataFinal"] = fim
+
+    resp = requests.get(url, params=params, timeout=timeout)
+    resp.raise_for_status()
+    dados = resp.json()
+
+    for ponto in dados:
+        ponto["serie"] = nome
+        ponto["codigo_sgs"] = codigo
+    return dados
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Coleta séries do SGS/BACEN")
+    parser.add_argument("--inicio", default=None, help="dd/mm/aaaa")
+    parser.add_argument("--fim", default=None, help="dd/mm/aaaa")
+    parser.add_argument(
+        "--series",
+        nargs="+",
+        default=list(SERIES.keys()),
+        help=f"Subconjunto de séries a coletar. Opções: {', '.join(SERIES.keys())}",
+    )
+    parser.add_argument(
+        "--saida",
+        default="dados_sgs_bacen.json",
+        help="Arquivo de saída (JSON)",
+    )
+    parser.add_argument(
+        "--pausa",
+        type=float,
+        default=0.5,
+        help="Segundos de espera entre chamadas (evitar rate limit)",
+    )
+    args = parser.parse_args()
+
+    resultado = {}
+    erros = {}
+
+    for nome in args.series:
+        if nome not in SERIES:
+            print(f"[aviso] série desconhecida: {nome}")
+            continue
+
+        codigo, descricao = SERIES[nome]
+        print(f"Coletando {nome} (SGS {codigo}) — {descricao}...")
+
+        try:
+            dados = coletar_serie(nome, codigo, args.inicio, args.fim)
+            resultado[nome] = {
+                "codigo_sgs": codigo,
+                "descricao": descricao,
+                "n_observacoes": len(dados),
+                "dados": dados,
+            }
+            print(f"  -> {len(dados)} observações")
+        except requests.RequestException as e:
+            print(f"  -> erro: {e}")
+            erros[nome] = str(e)
+
+        time.sleep(args.pausa)
+
+    saida_path = Path(args.saida)
+    saida_path.write_text(
+        json.dumps({"series": resultado, "erros": erros}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"\nSalvo em {saida_path.resolve()}")
+    if erros:
+        print(f"Séries com erro: {list(erros.keys())}")
+
+
+if __name__ == "__main__":
+    main()
