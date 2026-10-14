@@ -85,3 +85,18 @@ Registro semanal do trabalho da equipe (Samuel Luiz, Diego Lopes e Fernando Cley
 **Evidência coletada:** saída dos 9 testes passando (04/10/2026) e histórico de commits do repositório.
 
 **Próxima semana:** primeira rodada de contato com comerciantes de Fortaleza (até 11/10), registrando cada tentativa em `evidencias.csv`; começar a API 2 (cálculo da variação de preço e do IPCA acumulado).
+
+### Semana 05/10 
+
+Quem trabalhou e quanto: Diego - 5h; Samuel - 2,5h; Cleyber - 3h
+
+O que foi feito:
+ Diego - Estudos de modelos deterministico para saber quais modelos seriam mais apropiado como factor model e entre outros, algumas tecnicas de series temporais; exploração das bases de dados além do bacem, como o IBGE afim de encontrar mais fenomenos macroeconomico; criação do modulo `llm_cliente.py`, modulo dedicado para centralizar toda a comunicação do projeto com o LLM (Anthropic e GEMINI); Coleta de dados; criação do `schemas.py` pydantic para ter uma saida estruturadfa do llm para o modulo de narrativa e TXTs como pratica de eng de prompt para externalização do prompt do codigo
+
+Samuel - Ambos focaram em formular perguntas para validar a ideia o conceito para o publico externo e foi feito uma conversa previa com um comerciante da cantina da quimica 
+Cleyber - Ambos focaram em formular perguntas para validar a ideia o conceito para o publico externo e foi feito uma conversa previa com um comerciante da cantina da quimica 
+ 
+** Obstaculos:** Durante o estudo, ter uma dimensão, compreensão das series que foram coletadas pelo SGS, erro 406 client error em algumas series que foram pontuadas como importante pela equipe. 
+Séries com erro: ['selic', 'cdi', 'dolar']
+
+**Proxima semana: ** Melhoria no codigo, Ampliar o numero de tentativas em coleta de dados de series, principalmente nas que derao erro durante a primeira coleta. Usar tecnica de mais tempo durante a requisição; Implementação de modelos deterministico; Interface no strealit e contato com o publico externo; modificações constantes nos arquivos txt conforme a versão do projeto
