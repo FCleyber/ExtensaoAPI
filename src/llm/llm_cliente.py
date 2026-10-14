@@ -1,14 +1,21 @@
+"""
+explicação da API 2 — escopo do plano de 04/10 (Campo 3).
+
+O LLM nunca calcula: a variação de preço e o IPCA acumulado já vêm
+prontos do código (ver regra de cálculo no plano de ação). Esta camada
+só decide COMO dizer isso em linguagem simples.
+
+"""
 from __future__ import annotations
 import json
 import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from schemas import NarrativaMacro, ComparacaoPeriodos
+from schemas import ExplicacaoReajuste
 
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
-
-MAX_OUTPUT_TOKENS = 4000
+MAX_OUTPUT_TOKENS = 500
 
 
 def _ler_prompt(nome: str) -> str:
@@ -16,31 +23,41 @@ def _ler_prompt(nome: str) -> str:
         return f.read()
 
 
-def _provedor(forcado: str | None = None) -> str:
-    if forcado:
-        if forcado not in ("anthropic", "gemini"):
-            raise ValueError(f"Provedor invalido: {forcado!r}. Use 'anthropic' ou 'gemini'.")
-        return forcado
+def template_determinístico(classificacao: str, diferenca_pp: float,
+                            variacao_preco_pct: float, ipca_acumulado_pct: float) -> str:
+    """Explicação padrão, sem LLM. Sempre disponível, sempre a mesma lógica."""
+    diferenca_abs = abs(round(diferenca_pp, 1))
+    if classificacao == "acima":
+        return (
+            f"O reajuste de {variacao_preco_pct:.1f}% ficou acima da inflação "
+            f"do período ({ipca_acumulado_pct:.1f}%), uma diferença de "
+            f"{diferenca_abs} pontos percentuais.")
+    if classificacao == "abaixo":
+        return (
+            f"O reajuste de {variacao_preco_pct:.1f}% ficou abaixo da inflação "
+            f"do período ({ipca_acumulado_pct:.1f}%), uma diferença de "
+            f"{diferenca_abs} pontos percentuais.")
+    return (
+        f"O reajuste de {variacao_preco_pct:.1f}% ficou próximo da inflação "
+        f"do período ({ipca_acumulado_pct:.1f}%), com diferença de apenas "
+        f"{diferenca_abs} ponto(s) percentual(is).")
+
+
+def _provedor_disponivel() -> str | None:
     if os.getenv("ANTHROPIC_API_KEY"):
         return "anthropic"
     if os.getenv("GEMINI_API_KEY"):
         return "gemini"
-    raise RuntimeError(
-        "Nenhuma chave de API encontrada.\n"
-        "  Anthropic: defina ANTHROPIC_API_KEY (console.anthropic.com)\n"
-        "  Gemini:    defina GEMINI_API_KEY    (aistudio.google.com)\n"
-        "  PowerShell: $env:ANTHROPIC_API_KEY='sk-ant-...'")
+    return None
 
 
-# ANTHROPIC
-
-def _call_anthropic(system: str, user: str, schema_model):
+def _call_anthropic(system: str, user: str) -> ExplicacaoReajuste:
     import anthropic
     client = anthropic.Anthropic()
     tool = {
         "name": "responder",
-        "description": "Retorna a resposta no formato estruturado exigido.",
-        "input_schema": schema_model.model_json_schema(),
+        "description": "Retorna a explicação no formato estruturado exigido.",
+        "input_schema": ExplicacaoReajuste.model_json_schema(),
     }
     resp = client.messages.create(
         model=os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
@@ -50,138 +67,62 @@ def _call_anthropic(system: str, user: str, schema_model):
         tool_choice={"type": "tool", "name": "responder"},
         messages=[{"role": "user", "content": user}],
     )
-
-    if resp.stop_reason == "max_tokens":
-        raise RuntimeError(
-            f"Resposta da Anthropic foi truncada por max_tokens "
-            f"({MAX_OUTPUT_TOKENS}). Aumente MAX_OUTPUT_TOKENS em llm_client.py.")
-
     for block in resp.content:
         if block.type == "tool_use":
-            try:
-                return schema_model.model_validate(block.input)
-            except Exception as e:
-                raise RuntimeError(
-                    f"Resposta da Anthropic nao bateu com o schema "
-                    f"{schema_model.__name__}. Campos recebidos: "
-                    f"{list(block.input.keys())}. Erro original: {e}")
-    raise RuntimeError("Anthropic nao retornou tool_use — verifique o schema.")
+            return ExplicacaoReajuste.model_validate(block.input)
+    raise RuntimeError("Anthropic não retornou tool_use.")
 
 
-# GEMINI FLASH
-
-def _resolver_refs_schema(schema: dict) -> dict:
-    """Resolve $ref/$defs e remove `additionalProperties` — dois campos que
-    o Pydantic gera e que a API do Gemini nao aceita."""
-    defs = schema.pop("$defs", {})
-
-    def _resolve(node):
-        if isinstance(node, dict):
-            node = {k: v for k, v in node.items() if k != "additionalProperties"}
-            if "$ref" in node:
-                ref_name = node["$ref"].split("/")[-1]
-                resolved = dict(defs.get(ref_name, {}))
-                resolved.pop("title", None)
-                resolved.pop("additionalProperties", None)
-                return _resolve(resolved)
-            return {k: _resolve(v) for k, v in node.items()}
-        if isinstance(node, list):
-            return [_resolve(item) for item in node]
-        return node
-
-    return _resolve(schema)
-
-
-def _call_gemini(system: str, user: str, schema_model):
+def _call_gemini(system: str, user: str) -> ExplicacaoReajuste:
     from google import genai
     from google.genai import types
 
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    schema_resolvido = _resolver_refs_schema(schema_model.model_json_schema())
+    schema = ExplicacaoReajuste.model_json_schema()
+    schema.pop("$defs", None)
 
-    config_gen = types.GenerateContentConfig(
-        system_instruction=system,
-        temperature=0,
-        response_mime_type="application/json",
-        response_schema=schema_resolvido,
-        max_output_tokens=MAX_OUTPUT_TOKENS,
-        # Gemini 2.5 conta tokens de "thinking" dentro do mesmo orcamento de
-        # max_output_tokens, truncando o JSON visivel.
-        thinking_config=types.ThinkingConfig(thinking_budget=0),
+    resp = client.models.generate_content(
+        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+        contents=user,
+        config=types.GenerateContentConfig(
+            system_instruction=system,
+            temperature=0,
+            response_mime_type="application/json",
+            response_schema=schema,
+            max_output_tokens=MAX_OUTPUT_TOKENS,
+            thinking_config=types.ThinkingConfig(thinking_budget=0),
+        ),
     )
-
-    modelo_nome = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-
-    for attempt in range(3):
-        try:
-            resp = client.models.generate_content(
-                model=modelo_nome, contents=user, config=config_gen)
-
-            candidato = resp.candidates[0] if resp.candidates else None
-            finish_reason = getattr(candidato, "finish_reason", None)
-            if finish_reason is not None and "MAX_TOKENS" in str(finish_reason):
-                raise RuntimeError(
-                    f"Resposta do Gemini truncada por max_output_tokens "
-                    f"({MAX_OUTPUT_TOKENS}) apesar de thinking_budget=0. "
-                    f"Aumente MAX_OUTPUT_TOKENS ou troque GEMINI_MODEL para "
-                    f"'gemini-2.0-flash' (sem thinking).")
-
-            dados = json.loads(resp.text)
-            return schema_model.model_validate(dados)
-        except RuntimeError:
-            raise
-        except Exception as e:
-            if attempt == 2:
-                texto_resp = None
-                try:
-                    texto_resp = resp.text[:300]
-                except Exception:
-                    pass
-                raise RuntimeError(
-                    f"Gemini falhou apos 3 tentativas (modelo '{modelo_nome}'): {e}\n"
-                    f"Resposta: {texto_resp or 'indisponivel'}\n"
-                    f"Se for 'model not found', ajuste GEMINI_MODEL.")
-            import time
-            time.sleep(2)
+    return ExplicacaoReajuste.model_validate(json.loads(resp.text))
 
 
-# DISPATCHER
+def explicar_reajuste(variacao_preco_pct: float, ipca_acumulado_pct: float,
+                      classificacao: str, mes_inicial: str, mes_final: str) -> str:
+    """Interface pública usada pela API 2.
 
-def _chamar(system: str, user: str, schema_model, provedor: str | None = None):
-    prov = _provedor(provedor)
-    if prov == "anthropic":
-        return _call_anthropic(system, user, schema_model)
-    return _call_gemini(system, user, schema_model)
+    Todos os números já vêm calculados pelo código (regra do plano,
+    Campo 3). Esta função só decide a frase final — nunca um valor."""
+    diferenca_pp = variacao_preco_pct - ipca_acumulado_pct
+    texto_padrao = template_determinístico(
+        classificacao, diferenca_pp, variacao_preco_pct, ipca_acumulado_pct)
 
+    usar_llm = os.getenv("USAR_LLM_EXPLICACAO") == "1"
+    provedor = _provedor_disponivel()
+    if not usar_llm or not provedor:
+        return texto_padrao
 
-# INTERFACE PUBLICA
-
-def narrar_periodo(dados_series: dict, fenomeno: str, periodo: str,
-                   provedor: str | None = None) -> NarrativaMacro:
-    """Gera narrativa em linguagem simples a partir de series do SGS/BACEN.
-
-    dados_series: dict {nome_serie: [{"data": ..., "valor": ...}, ...]},
-    no mesmo formato devolvido por coleta_sgs_bacen.py. O LLM recebe os
-    dados ja numericos — nao precisa buscar nem calcular nada."""
-    system = _ler_prompt("narrar_periodo.txt").format(
-        fenomeno=fenomeno, periodo=periodo)
+    system = _ler_prompt("explicar_reajuste.txt")
     user = (
-        f" DADOS DAS SERIES ({periodo}) \n"
-        f"{json.dumps(dados_series, ensure_ascii=False, indent=2)}")
-    return _chamar(system, user, NarrativaMacro, provedor)
+        f"Período: {mes_inicial} a {mes_final}\n"
+        f"Variação do preço: {variacao_preco_pct:.2f}%\n"
+        f"IPCA acumulado no período: {ipca_acumulado_pct:.2f}%\n"
+        f"Classificação (já decidida pelo código): {classificacao}\n"
+        f"Diferença: {diferenca_pp:.2f} pontos percentuais")
 
-
-def comparar_periodos(dados_atual: dict, dados_anterior: dict,
-                      rotulo_atual: str, rotulo_anterior: str,
-                      provedor: str | None = None) -> ComparacaoPeriodos:
-    """Compara indicadores macro entre dois periodos.
-
-    dados_atual / dados_anterior seguem o mesmo formato de narrar_periodo."""
-    system = _ler_prompt("comparar_periodos.txt").format(
-        rotulo_atual=rotulo_atual, rotulo_anterior=rotulo_anterior)
-    user = (
-        f"=== PERIODO ANTERIOR ({rotulo_anterior}) ===\n"
-        f"{json.dumps(dados_anterior, ensure_ascii=False, indent=2)}\n\n"
-        f"=== PERIODO ATUAL ({rotulo_atual}) ===\n"
-        f"{json.dumps(dados_atual, ensure_ascii=False, indent=2)}")
-    return _chamar(system, user, ComparacaoPeriodos, provedor)
+    try:
+        if provedor == "anthropic":
+            return _call_anthropic(system, user).explicacao
+        return _call_gemini(system, user).explicacao
+    except Exception:
+        # Qualquer falha do LLM cai pro template — a API 2 nunca quebra por isso.
+        return texto_padrao
