@@ -13,6 +13,8 @@ import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
+from datetime import datetime, timezone
+import csv
 
 SERIE = 433
 URL_BCB = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.%d/dados?formato=json" % SERIE
@@ -23,6 +25,8 @@ FONTE = (
 UNIDADE = "variação percentual mensal"
 PADRAO_MES = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
 CACHE_SEGUNDOS = 3600
+LOG_ACESSOS = os.environ.get("LOG_ACESSOS", "acessos.csv")
+
 
 _cache = {"quando": 0.0, "dados": None}
 
@@ -80,6 +84,25 @@ def montar_resposta(inicio=None, fim=None):
         "dados": selecionados,
     }
 
+def registrar_acesso(ref, rota, status):
+    """Registra o acesso no arquivo CSV, se houver referência ref"""
+    if not ref:
+        return
+    agora = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    linha = [agora, ref, rota, str(status)]
+ 
+    print("ACESSO %s" % ",".join(linha))  # vai pros logs do render
+ 
+    novo_arquivo = not os.path.exists(LOG_ACESSOS)
+    try:
+        with open(LOG_ACESSOS, "a", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            if novo_arquivo:
+                w.writerow(["timestamp_utc", "ref", "rota", "status"])
+            w.writerow(linha)
+    except OSError:
+        pass  
+ 
 
 AJUDA = {
     "api": "API 1 - IPCA mensal em JSON",

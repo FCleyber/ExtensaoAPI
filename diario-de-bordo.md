@@ -100,3 +100,21 @@ Cleyber - Ambos focaram em formular perguntas para validar a ideia o conceito pa
 Séries com erro: ['selic', 'cdi', 'dolar']
 
 **Proxima semana: ** Melhoria no codigo, Ampliar o numero de tentativas em coleta de dados de series, principalmente nas que derao erro durante a primeira coleta. Usar tecnica de mais tempo durante a requisição; Implementação de modelos deterministico; Interface no strealit e contato com o publico externo; modificações constantes nos arquivos txt conforme a versão do projeto
+whas
+## Semana de 12/10
+
+Quem trabalhou e quanto: Diego — 4h ; Samuel — [completar horas]; Cleyber — [completar horas]
+
+O que foi feito:
+
+Diego: Corrigido o coletor pra só IPCA, cortadas as outras 13 séries fora do escopo. Módulo de LLM reduzido: ele não calcula nada, só reescreve o resultado pronto, com template padrão funcionando sem chave e LLM opcional por trás de uma flag, com fallback se falhar. E trocado os .txt vazios por um prompt só, de verdade, dentro de prompts/. Implementação na 'api1.py', função registrar acesso de cada chamada
+
+
+Obstáculo: 
+Diego: Nenhum.
+
+Contato com o público: [completar — provavelmente "nenhum" se a 1ª rodada ainda não aconteceu]
+
+Evidência coletada: [completar — commits no histórico do repositório; linha em evidencias.csv se houver contato]
+
+Próxima semana: deploy da API no Render; implementação do log de chamadas com ?ref= por comerciante; primeira rodada de contato com comerciantes (atrasada desde 10–11/10).
