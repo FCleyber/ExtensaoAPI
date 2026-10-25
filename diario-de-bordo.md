@@ -103,18 +103,21 @@ Séries com erro: ['selic', 'cdi', 'dolar']
 whas
 ## Semana de 12/10
 
-Quem trabalhou e quanto: Diego — 4h ; Samuel — [completar horas]; Cleyber — [completar horas]
+Quem trabalhou e quanto: Diego — 4h ; Samuel — 1,5h; Cleyber — 1,5h
 
 O que foi feito:
 
-Diego: Corrigido o coletor pra só IPCA, cortadas as outras 13 séries fora do escopo. Módulo de LLM reduzido: ele não calcula nada, só reescreve o resultado pronto, com template padrão funcionando sem chave e LLM opcional por trás de uma flag, com fallback se falhar. E trocado os .txt vazios por um prompt só, de verdade, dentro de prompts/. Implementação na 'api1.py', função registrar acesso de cada chamada
+Diego: Corrigido o coletor pra só IPCA, cortadas as outras 13 séries fora do escopo. Módulo de LLM reduzido: ele não calcula nada, só reescreve o resultado pronto, com template padrão funcionando sem chave e LLM opcional por trás de uma flag, com fallback se falhar. E trocado os .txt vazios por um prompt só, de verdade, dentro de prompts/. Implementação na 'api1.py', função registrar acesso de cada chamada e implementação do log de chamadacom ?ref=
 
+Samuel: contato com o publico
+Cleyber: contato com o publico
 
 Obstáculo: 
 Diego: Nenhum.
 
-Contato com o público: [completar — provavelmente "nenhum" se a 1ª rodada ainda não aconteceu]
+Contato com o público: Contato com o público: Samuel e Cleyber fizeram contato com o público esta semana.
 
-Evidência coletada: [completar — commits no histórico do repositório; linha em evidencias.csv se houver contato]
 
-Próxima semana: deploy da API no Render; implementação do log de chamadas com ?ref= por comerciante; primeira rodada de contato com comerciantes (atrasada desde 10–11/10).
+Próxima semana: deploy da API no Render; mais contato com comerciantes;
+
+## semana 19

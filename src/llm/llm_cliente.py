@@ -50,6 +50,8 @@ def _provedor_disponivel() -> str | None:
         return "gemini"
     return None
 
+    
+
 
 def _call_anthropic(system: str, user: str) -> ExplicacaoReajuste:
     import anthropic

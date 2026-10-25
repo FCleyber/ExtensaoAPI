@@ -116,38 +116,79 @@ AJUDA = {
 }
 
 
+
 class Handler(BaseHTTPRequestHandler):
-    def _json(self, status, corpo):
-        dados = json.dumps(corpo, ensure_ascii=False, indent=2).encode("utf-8")
+    def _json(self, status, corpo, ref=None, rota="/"):
+        dados = json.dumps(
+            corpo, ensure_ascii=False, indent=2
+        ).encode("utf-8")
+
         self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header(
+            "Content-Type", "application/json; charset=utf-8"
+        )
         self.send_header("Content-Length", str(len(dados)))
         self.end_headers()
-        self.wfile.write(dados)
+
+        try:
+            self.wfile.write(dados)
+        finally:
+            registrar_acesso(ref, rota, status)
 
     def do_GET(self):
         url = urlparse(self.path)
-        if url.path == "/":
-            return self._json(200, AJUDA)
-        if url.path == "/ipca":
-            params = parse_qs(url.query)
+        params = parse_qs(url.query)
+        ref = params.get("ref", [None])[0]
+        rota = url.path
+
+        if rota == "/":
+            return self._json(200, AJUDA, ref, rota)
+
+        if rota == "/ipca":
             try:
                 corpo = montar_resposta(
-                    params.get("inicio", [None])[0], params.get("fim", [None])[0]
+                    params.get("inicio", [None])[0],
+                    params.get("fim", [None])[0]
                 )
             except ValueError as erro:
-                return self._json(400, {"erro": str(erro)})
-            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError):
-                return self._json(502, {"erro": "Não foi possível consultar o SGS do Banco Central agora. Tente novamente."})
-            return self._json(200, corpo)
-        return self._json(404, {"erro": "Rota não encontrada. Veja GET /"})
+                return self._json(
+                    400, {"erro": str(erro)}, ref, rota
+                )
+            except (
+                urllib.error.URLError,
+                TimeoutError,
+                json.JSONDecodeError
+            ):
+                return self._json(
+                    502,
+                    {
+                        "erro": (
+                            "Não foi possível consultar o SGS do "
+                            "Banco Central agora. Tente novamente."
+                        )
+                    },
+                    ref,
+                    rota
+                )
+
+            return self._json(200, corpo, ref, rota)
+
+        return self._json(
+            404,
+            {"erro": "Rota não encontrada. Veja GET /"},
+            ref,
+            rota
+        )
 
     def log_message(self, formato, *args):
-        print("%s %s" % (self.address_string(), formato % args))
+        print(
+            "%s %s" % (self.address_string(), formato % args)
+        )
+
 
 
 def main():
-    host = os.environ.get("HOST", "127.0.0.1")
+    host = os.environ.get("HOST", "0.0.0.0") # transparente para render.com, mas localhost para testes locais
     porta = int(os.environ.get("PORT", "8000"))
     servidor = ThreadingHTTPServer((host, porta), Handler)
     print("API 1 no ar: http://%s:%d/ipca  (Ctrl+C para parar)" % (host, porta))
