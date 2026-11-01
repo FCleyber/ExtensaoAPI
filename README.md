@@ -6,9 +6,10 @@ Projeto de Extensão da cadeira Interfaces de Programação de Aplicação.
 
 **O que é:** um serviço de APIs públicas que ajuda pequenos comerciantes de Fortaleza a comparar o reajuste de preço de um produto com a inflação (IPCA) do período. O plano completo está em [`plano-de-acao.md`](plano-de-acao.md).
 
-## Estado atual (Marco 1)
+## Estado atual
 
-Existe a **API 1**: consulta o IPCA mensal no Banco Central e devolve os dados em JSON. A API 2 (cálculo e comparação) e a página de uso são do Marco 2.
+- **API 1 (pronta):** consulta o IPCA mensal no Banco Central e devolve os dados em JSON. É a que se executa seguindo este README.
+- **Em andamento (Marco 2):** a API 2, que calcula o IPCA acumulado e compara com o reajuste, e a página de uso. Já existe o módulo que escreve a explicação em linguagem simples (`src/llm/`), com texto padrão que funciona sem chave de API.
 
 ## Como rodar a API 1
 
@@ -17,12 +18,12 @@ Existe a **API 1**: consulta o IPCA mensal no Banco Central e devolve os dados e
 ```bash
 git clone https://github.com/FCleyber/ExtensaoAPI
 cd ExtensaoAPI
-python api1.py
+python src/api/api1.py
 ```
 
-No Windows, se `python` não funcionar, use `py api1.py`. No Linux e no macOS, `python3 api1.py`.
+No Windows, se `python` não funcionar, use `py src/api/api1.py`. No Linux e no macOS, `python3 src/api/api1.py`.
 
-O terminal mostra `API 1 no ar: http://127.0.0.1:8000/ipca`. Deixe-o aberto e acesse no navegador (ou com `curl`):
+O terminal mostra `API 1 no ar: http://0.0.0.0:8000/ipca`. Isso significa que o servidor está escutando; no navegador (ou com `curl`), use sempre o endereço `127.0.0.1`. Deixe o terminal aberto:
 
 | O que você quer | Endereço |
 | :-- | :-- |
@@ -53,7 +54,21 @@ Resposta:
 
 (`ultimo_mes_disponivel` muda quando o IBGE divulga um novo mês.)
 
-Para parar o servidor, use `Ctrl+C`. Para mudar a porta: `PORT=9000 python api1.py` (Linux/macOS) ou, no PowerShell, `$env:PORT=9000; python api1.py`.
+Para parar o servidor, use `Ctrl+C`.
+
+### Configurações opcionais (variáveis de ambiente)
+
+| Variável | Para quê | Padrão |
+| :-- | :-- | :-- |
+| `PORT` | Porta do servidor | `8000` |
+| `HOST` | Endereço em que o servidor escuta. Use `127.0.0.1` para aceitar só conexões deste computador | `0.0.0.0` |
+| `LOG_ACESSOS` | Arquivo onde os acessos com `?ref=` são registrados | `acessos.csv` |
+
+Exemplos: no Linux e no macOS, `PORT=9000 HOST=127.0.0.1 python src/api/api1.py`. No PowerShell, `$env:PORT=9000; $env:HOST="127.0.0.1"; python src/api/api1.py`.
+
+### Identificar quem acessa (`?ref=`)
+
+Qualquer rota aceita o parâmetro `ref`, por exemplo `http://127.0.0.1:8000/ipca?ref=mercado-a`. Quando ele está presente, o acesso é registrado (data e hora em UTC, `ref`, rota e status) em `acessos.csv` e também impresso no terminal. A equipe usa isso para saber qual contato gerou qual uso, entregando um link com `ref` próprio a cada pessoa.
 
 ### Erros
 
@@ -65,8 +80,10 @@ Para parar o servidor, use `Ctrl+C`. Para mudar a porta: `PORT=9000 python api1.
 
 ## Testes
 
+Na raiz do repositório:
+
 ```bash
-python -m unittest test_api1 -v
+python -m unittest discover -s tests -v
 ```
 
 Os testes usam dados simulados e não precisam de internet.
@@ -80,12 +97,14 @@ Os testes usam dados simulados e não precisam de internet.
 
 ## Organização do repositório
 
-| Arquivo | Para quê |
+| Caminho | Para quê |
 | :-- | :-- |
 | `plano-de-acao.md` | Plano de ação final |
-| `marco-1.md` | Ficha de entrega do Marco 1 |
+| `docs/marco-1.md` | Ficha de entrega do Marco 1 |
 | `diario-de-bordo.md` | Registro semanal do trabalho |
-| `evidencias.csv` | Evidências de contato com o público externo |
-| `api1.py` | Código da API 1 |
-| `test_api1.py` | Testes da API 1 |
+| `evidencias.csv` e `evidencias/` | Registro e comprovantes dos contatos com o público externo |
+| `src/api/api1.py` | Código da API 1 |
+| `src/llm/` | Módulo que escreve a explicação em linguagem simples (texto padrão sem chave; LLM opcional) |
+| `coleta de dados/` | Script auxiliar de coleta do IPCA no SGS (usa a biblioteca `requests`) |
+| `tests/test_api1.py` | Testes da API 1 |
 | `modelos/` | Materiais da disciplina (modelos e guias) |
