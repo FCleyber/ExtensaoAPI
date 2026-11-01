@@ -122,15 +122,15 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
 ### Semana de 19/10 (registrada com atraso, em 01/11)
 
-**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — [PREENCHER]; Cleyber — [PREENCHER]
+**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — 0h; Cleyber — [PREENCHER]
 **O que foi feito:** Diego implementou o registro de acessos com `?ref=` na API 1 e ajustes no `api1.py` (commits de 19/10 e 24/10). Pouco avanço do restante da equipe, por provas e atividades de outras disciplinas.
 **Contato com o público:** nenhum. **Obstáculo:** provas e atividades de outras disciplinas.
 **Próxima semana:** voltar a procurar os comerciantes e retomar a API 2.
 
 ### Semana de 26/10
 
-**Quem trabalhou e quanto:** Samuel — [PREENCHER horas reais]; Cleyber — [PREENCHER]; Diego — [PREENCHER]
-**O que foi feito:** Cleyber visitou o Mercado da Praça (28/10), conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel corrigiu o README e os testes, fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe, e publicou o app no Render: https://extensaoapi.onrender.com (01/11).
+**Quem trabalhou e quanto:** Samuel — cerca de 4h (2h de pesquisa sobre deploy ao longo da semana e cerca de 2h em 01/11); Cleyber — [horas dele]; Diego — [horas dele]
+**O que foi feito:** Samuel e Cleyber visitaram o Mercado da Praça (28/10). Cleyber conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel pesquisou como publicar o app no Render, corrigiu o README e os testes, fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe, e publicou o app em https://extensaoapi.onrender.com (01/11).
 **Contato com o público:** 3 registros em `evidencias.csv` (28/10 e 31/10). **Obstáculo:** o Mercado da Praça ainda não respondeu.
 **Próxima semana:** testar com o Raimundo e a loja Tudo Limpo usando links com `?ref=` e registrar os acessos em `evidencias/`.
 
