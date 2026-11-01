@@ -130,9 +130,9 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 ### Semana de 26/10
 
 **Quem trabalhou e quanto:** Samuel — [PREENCHER horas reais]; Cleyber — [PREENCHER]; Diego — [PREENCHER]
-**O que foi feito:** Cleyber visitou o Mercado da Praça (28/10), conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel corrigiu o README e os testes e fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe (01/11).
+**O que foi feito:** Cleyber visitou o Mercado da Praça (28/10), conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel corrigiu o README e os testes, fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe, e publicou o app no Render: https://extensaoapi.onrender.com (01/11).
 **Contato com o público:** 3 registros em `evidencias.csv` (28/10 e 31/10). **Obstáculo:** o Mercado da Praça ainda não respondeu.
-**Próxima semana:** publicar no Render (Diego), testar com o Raimundo e a loja Tudo Limpo usando links com `?ref=`.
+**Próxima semana:** testar com o Raimundo e a loja Tudo Limpo usando links com `?ref=` e registrar os acessos em `evidencias/`.
 
 ### Correções registradas em 01/11/2026
 
