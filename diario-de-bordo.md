@@ -145,3 +145,4 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 As entradas anteriores não foram reescritas, conforme orientação do professor. Corrigimos aqui:
 - Semana de 05/10: a conversa prévia com um comerciante da cantina da química não ocorreu.
 - Semana de 28/09: a call com o professor marcada para 30/09 não aconteceu.
+- Semanas de 07/09 a 28/09: as entradas foram reconstruídas em 04/10, a partir do grupo da equipe, dos e-mails e do repositório, como declarado na ficha do Marco 1.
