@@ -30,7 +30,7 @@ Um pequeno comerciante que precisa reajustar o preço de um produto não consegu
 
 ## Campo 3 — Trilha e produto
 
-- **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:** Um serviço de APIs públicas que consulta o IPCA e permite comparar a variação do preço de um produto com a inflação acumulada em um período, apresentando o resultado em linguagem simples. O código fica no repositório público da equipe e o serviço será **publicado num endereço na internet até o Marco 2 (13/11)**, no Render (plano gratuito), para que os comerciantes tenham onde clicar antes do Marco 3.
+- **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:** Um serviço de APIs públicas que consulta o IPCA e permite comparar a variação do preço de um produto com a inflação acumulada em um período, apresentando o resultado em linguagem simples. O código fica no repositório público da equipe e o serviço está **publicado em https://extensaoapi.onrender.com** desde 01/11 (Render, plano gratuito), antes do Marco 2, para que os comerciantes tenham onde clicar.
 
 O produto será desenvolvido em etapas:
 
@@ -81,8 +81,8 @@ O Banco Central informa, para suas séries do SGS relacionadas ao IPCA, periodic
 
 | Integrante | Papel | O que fica sob sua responsabilidade |
 |---|---|---|
-| **Diego Lopes** | Publicação e registro de acessos | Publicar o app no Render (deploy), manter o log de chamadas com o marcador `ref` por comerciante e o módulo de explicação (`src/llm/`), restrito ao papel definido no Campo 3. |
-| **Samuel Luiz** | APIs 1 e 2 | Coleta do IPCA no SGS (API 1) e API 2: cálculos de variação de preço e IPCA acumulado (regra do Campo 3), com testes conferidos à mão, e a página de uso. |
+| **Diego Lopes** | Registro de acessos e explicação | Manter o log de chamadas com o marcador `ref` por comerciante, exportar os acessos dos logs do Render para `evidencias/` e manter o módulo de explicação (`src/llm/`), restrito ao papel definido no Campo 3. |
+| **Samuel Luiz** | APIs 1 e 2 e publicação | Coleta do IPCA no SGS (API 1), API 2 (cálculos de variação de preço e IPCA acumulado, regra do Campo 3, com testes conferidos à mão), página de uso e publicação no Render. |
 | **Fernando Cleyber** | Produto e validação externa | Definir o caso de uso, organizar os testes com comerciantes, registrar cada contato em `evidencias.csv` e acompanhar a divulgação do produto. |
 
 ## Campo 6 — Cronograma
@@ -92,7 +92,7 @@ O Banco Central informa, para suas séries do SGS relacionadas ao IPCA, periodic
 | **04/10 (Marco 1, entrega remota)** | API 1 funcional, consultando o IPCA (série 433) no BACEN e retornando os dados em JSON de forma organizada, com README contendo o comando exato para executá-la e documentação básica do endpoint. Arquivos de `03-modelos` na raiz do repositório com os nomes oficiais. |
 | **09/10 a 18/10** | Primeira rodada realizada: loja Tudo Limpo (09/10) e Mercado da Praça (18/10), registradas em `evidencias.csv` (ver Campo 2). |
 | **28/10 a 31/10** | Segunda rodada realizada: visita ao Mercado da Praça (28/10) e conversa com o Raimundo (31/10), que aceitou testar o produto (ver Campo 2). |
-| **13/11 (Marco 2)** | API 2 funcional, com a regra de cálculo do Campo 3, comparação e explicação em linguagem simples (template; LLM opcional). Página de uso mínima funcionando. Log de requisições ativo, registrando o marcador `ref` de cada chamada. **App publicado no Render, com endereço público**, e teste combinado com o Raimundo e a loja Tudo Limpo. |
+| **13/11 (Marco 2)** | API 2 funcional, com a regra de cálculo do Campo 3, comparação e explicação em linguagem simples (template; LLM opcional). Página de uso mínima funcionando. Log de requisições ativo, registrando o marcador `ref` de cada chamada. **App publicado no Render** (feito em 01/11: https://extensaoapi.onrender.com) e teste com o Raimundo e a loja Tudo Limpo. |
 | **27/11 (Marco 3)** | Produto (já publicado desde o Marco 2) testado com o público externo, com pelo menos três comerciantes contatados (tentativas e retornos registrados em `evidencias.csv`), indicadores medidos e documentação final. |
 | **04/12 (Socialização)** | Apresentação do projeto e demonstração do produto funcionando no endereço publicado. |
 
