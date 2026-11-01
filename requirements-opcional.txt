@@ -1,0 +1,9 @@
+# O produto (API 1, API 2 e página de uso) roda SEM instalar nada.
+# Estas dependências são só para recursos opcionais:
+#   pydantic, anthropic, google-genai -> LLM opcional (src/llm/)
+#   requests                          -> script "coleta de dados/coleta_sgs_bacen.py"
+# Instalar: pip install -r requirements-opcional.txt
+pydantic
+anthropic
+google-genai
+requests
