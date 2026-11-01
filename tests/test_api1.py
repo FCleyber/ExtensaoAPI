@@ -1,11 +1,13 @@
 """Testes da API 1. Rodar: python -m unittest test_api1 -v
 Usam dados simulados no formato do SGS, então não dependem da internet."""
+import os
+import sys
 import json
 import threading
 import unittest
 import urllib.error
 import urllib.request
-
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "api"))
 import api1
 
 BRUTO = [
