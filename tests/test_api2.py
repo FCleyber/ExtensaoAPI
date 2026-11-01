@@ -90,8 +90,8 @@ class TestCalculo(unittest.TestCase):
 
     def test_explicacao_cita_os_numeros_do_codigo(self):
         r = api2.comparar(100, "2026-01", 105, "2026-03", SERIE)
-        self.assertIn("5.0%", r["explicacao"])
-        self.assertIn("3.0%", r["explicacao"])
+        self.assertIn("5,0%", r["explicacao"])
+        self.assertIn("3,0%", r["explicacao"])
         self.assertIn("acima", r["explicacao"])
 
     def test_mes_final_nao_posterior(self):
@@ -175,6 +175,17 @@ class TestServidor(unittest.TestCase):
             time.sleep(0.1)
         self.assertEqual(linhas[0], ["timestamp_utc", "ref", "rota", "status"])
         self.assertTrue(any(l[1] == "mercado-teste" and l[2] == "/comparar" and l[3] == "200" for l in linhas[1:]))
+
+    def test_head_responde_sem_corpo(self):
+        req = urllib.request.Request(self.base + "/", method="HEAD")
+        with urllib.request.urlopen(req) as r:
+            self.assertEqual(r.status, 200)
+            self.assertIn("text/html", r.headers.get("Content-Type", ""))
+            self.assertEqual(r.read(), b"")
+        req = urllib.request.Request(self.base + "/comparar", method="HEAD")
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req)
+        self.assertEqual(ctx.exception.code, 405)
 
     def test_sem_ref_nao_registra(self):
         antes = os.path.getsize(api1.LOG_ACESSOS) if os.path.exists(api1.LOG_ACESSOS) else 0
