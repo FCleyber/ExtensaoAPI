@@ -69,17 +69,22 @@ def classificar(diferenca_pp):
     return "acima" if diferenca_pp > 0 else "abaixo"
 
 
+def _br(valor, casas=1):
+    """Formata número com vírgula decimal (ex.: 8,0)."""
+    return ("%.*f" % (casas, valor)).replace(".", ",")
+
+
 def _template(classificacao, diferenca_pp, variacao, ipca):
     """Explicação padrão, sem LLM. Mesma lógica de llm_cliente.template_determinístico."""
-    dif = abs(round(diferenca_pp, 1))
+    dif = _br(abs(round(diferenca_pp, 1)))
     if classificacao == "acima":
-        return ("O reajuste de %.1f%% ficou acima da inflação do período (%.1f%%), "
-                "uma diferença de %s pontos percentuais." % (variacao, ipca, dif))
+        return ("O reajuste de %s%% ficou acima da inflação do período (%s%%), "
+                "uma diferença de %s pontos percentuais." % (_br(variacao), _br(ipca), dif))
     if classificacao == "abaixo":
-        return ("O reajuste de %.1f%% ficou abaixo da inflação do período (%.1f%%), "
-                "uma diferença de %s pontos percentuais." % (variacao, ipca, dif))
-    return ("O reajuste de %.1f%% ficou próximo da inflação do período (%.1f%%), "
-            "com diferença de apenas %s ponto(s) percentual(is)." % (variacao, ipca, dif))
+        return ("O reajuste de %s%% ficou abaixo da inflação do período (%s%%), "
+                "uma diferença de %s pontos percentuais." % (_br(variacao), _br(ipca), dif))
+    return ("O reajuste de %s%% ficou próximo da inflação do período (%s%%), "
+            "com diferença de apenas %s ponto(s) percentual(is)." % (_br(variacao), _br(ipca), dif))
 
 
 def explicar(classificacao, diferenca_pp, variacao, ipca, mes_inicial, mes_final):
@@ -187,6 +192,7 @@ PAGINA = r"""<!doctype html>
   var r = document.getElementById('r');
   function v(id) { return document.getElementById(id).value; }
   function linha(texto) { var li = document.createElement('li'); li.textContent = texto; return li; }
+  function br(n) { return Number(n).toLocaleString('pt-BR', { maximumFractionDigits: 2 }); }
   document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
     var q = new URLSearchParams({
@@ -209,9 +215,9 @@ PAGINA = r"""<!doctype html>
           p.className = 'frase';
           p.textContent = x.d.explicacao;
           var ul = document.createElement('ul');
-          ul.appendChild(linha('Variação do seu preço: ' + x.d.variacao_preco_pct + '%'));
-          ul.appendChild(linha('Inflação (IPCA) no período: ' + x.d.ipca_acumulado_pct + '%'));
-          ul.appendChild(linha('Diferença: ' + x.d.diferenca_pp + ' pontos percentuais'));
+          ul.appendChild(linha('Variação do seu preço: ' + br(x.d.variacao_preco_pct) + '%'));
+          ul.appendChild(linha('Inflação (IPCA) no período: ' + br(x.d.ipca_acumulado_pct) + '%'));
+          ul.appendChild(linha('Diferença: ' + br(x.d.diferenca_pp) + ' pontos percentuais'));
           card.appendChild(p);
           card.appendChild(ul);
         }
@@ -259,6 +265,25 @@ class Handler(api1.Handler):
         except Exception:
             return self._json(500, {"erro": "Erro inesperado. Tente novamente."}, ref, rota)
         return self._json(200, resultado, ref, rota)
+
+    def do_HEAD(self):
+        """Responde a verificações (ex.: do Render) sem corpo. Só / e /ajuda."""
+        rota = urlparse(self.path).path
+        if rota == "/":
+            dados, tipo = PAGINA.encode("utf-8"), "text/html; charset=utf-8"
+        elif rota == "/ajuda":
+            dados = json.dumps(AJUDA, ensure_ascii=False, indent=2).encode("utf-8")
+            tipo = "application/json; charset=utf-8"
+        else:
+            self.send_response(405)
+            self.send_header("Allow", "GET")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        self.send_response(200)
+        self.send_header("Content-Type", tipo)
+        self.send_header("Content-Length", str(len(dados)))
+        self.end_headers()
 
     def do_GET(self):
         url = urlparse(self.path)
