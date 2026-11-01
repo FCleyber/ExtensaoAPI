@@ -188,7 +188,9 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    host = os.environ.get("HOST", "0.0.0.0") # transparente para render.com, mas localhost para testes locais
+    # Na hospedagem (ex.: Render) a variável PORT existe: escuta em todas as interfaces.
+    # Localmente, escuta só neste computador.
+    host = os.environ.get("HOST") or ("0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
     porta = int(os.environ.get("PORT", "8000"))
     servidor = ThreadingHTTPServer((host, porta), Handler)
     print("API 1 no ar: http://%s:%d/ipca  (Ctrl+C para parar)" % (host, porta))
