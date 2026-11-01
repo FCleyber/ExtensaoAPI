@@ -24,23 +24,29 @@ def _ler_prompt(nome: str) -> str:
         return f.read()
 
 
+def _br(valor: float, casas: int = 1) -> str:
+    """Formata número com vírgula decimal (ex.: 8,0)."""
+    return f"{valor:.{casas}f}".replace(".", ",")
+
+
 def template_determinístico(classificacao: str, diferenca_pp: float,
                             variacao_preco_pct: float, ipca_acumulado_pct: float) -> str:
     """Explicação padrão, sem LLM. Sempre disponível, sempre a mesma lógica."""
-    diferenca_abs = abs(round(diferenca_pp, 1))
+    diferenca_abs = _br(abs(round(diferenca_pp, 1)))
+    variacao, ipca = _br(variacao_preco_pct), _br(ipca_acumulado_pct)
     if classificacao == "acima":
         return (
-            f"O reajuste de {variacao_preco_pct:.1f}% ficou acima da inflação "
-            f"do período ({ipca_acumulado_pct:.1f}%), uma diferença de "
+            f"O reajuste de {variacao}% ficou acima da inflação "
+            f"do período ({ipca}%), uma diferença de "
             f"{diferenca_abs} pontos percentuais.")
     if classificacao == "abaixo":
         return (
-            f"O reajuste de {variacao_preco_pct:.1f}% ficou abaixo da inflação "
-            f"do período ({ipca_acumulado_pct:.1f}%), uma diferença de "
+            f"O reajuste de {variacao}% ficou abaixo da inflação "
+            f"do período ({ipca}%), uma diferença de "
             f"{diferenca_abs} pontos percentuais.")
     return (
-        f"O reajuste de {variacao_preco_pct:.1f}% ficou próximo da inflação "
-        f"do período ({ipca_acumulado_pct:.1f}%), com diferença de apenas "
+        f"O reajuste de {variacao}% ficou próximo da inflação "
+        f"do período ({ipca}%), com diferença de apenas "
         f"{diferenca_abs} ponto(s) percentual(is).")
 
 
