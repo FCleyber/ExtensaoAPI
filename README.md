@@ -13,7 +13,9 @@ Projeto de Extensão da cadeira Interfaces de Programação de Aplicação.
 
 ## Como rodar o app completo (página de uso + API 2 + API 1)
 
-**Requisitos:** Python 3.8 ou superior e acesso à internet. Não há nada para instalar.
+**Para usar sem instalar nada:** abra https://extensaoapi.onrender.com
+
+**Para rodar no seu computador:** Python 3.8 ou superior e acesso à internet. Não há nada para instalar.
 
 ```bash
 git clone https://github.com/FCleyber/ExtensaoAPI
@@ -154,4 +156,7 @@ O app é publicado como *Web Service* no Render, a partir deste repositório:
 
 - **Runtime:** Python 3. **Build Command:** deixar em branco (não há dependências). **Start Command:** `python src/api/api2.py`.
 - Não é preciso definir variáveis: o Render fornece `PORT` e o app passa a escutar em todas as interfaces. Cada comerciante recebe um link com marcador próprio, por exemplo `https://<endereco-do-render>/?ref=nome-do-contato`; os acessos aparecem nos logs do serviço como linhas `ACESSO ...`.
-- Endereço público: [PREENCHER após o deploy]
+- Variável de ambiente no Render: `PYTHONUNBUFFERED=1`, para que as linhas `ACESSO ...` apareçam nos logs na hora.
+- O serviço foi criado a partir do repositório público. Depois de cada commit, publique a nova versão em **Manual Deploy → Deploy latest commit**.
+- No plano gratuito o serviço "dorme" quando fica sem uso; a primeira abertura pode levar perto de um minuto.
+- **Endereço público: https://extensaoapi.onrender.com** (publicado em 01/11/2026)
