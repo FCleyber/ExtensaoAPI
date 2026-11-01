@@ -120,4 +120,22 @@ Contato com o público: Contato com o público: Samuel e Cleyber fizeram contato
 
 Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
-## semana 19
+### Semana de 19/10 (registrada com atraso, em 01/11)
+
+**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — [PREENCHER]; Cleyber — [PREENCHER]
+**O que foi feito:** Diego implementou o registro de acessos com `?ref=` na API 1 e ajustes no `api1.py` (commits de 19/10 e 24/10). Pouco avanço do restante da equipe, por provas e atividades de outras disciplinas.
+**Contato com o público:** nenhum. **Obstáculo:** provas e atividades de outras disciplinas.
+**Próxima semana:** voltar a procurar os comerciantes e retomar a API 2.
+
+### Semana de 26/10
+
+**Quem trabalhou e quanto:** Samuel — [PREENCHER horas reais]; Cleyber — [PREENCHER]; Diego — [PREENCHER]
+**O que foi feito:** Cleyber visitou o Mercado da Praça (28/10), conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel corrigiu o README e os testes e fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe (01/11).
+**Contato com o público:** 3 registros em `evidencias.csv` (28/10 e 31/10). **Obstáculo:** o Mercado da Praça ainda não respondeu.
+**Próxima semana:** publicar no Render (Diego), testar com o Raimundo e a loja Tudo Limpo usando links com `?ref=`.
+
+### Correções registradas em 01/11/2026
+
+As entradas anteriores não foram reescritas, conforme orientação do professor. Corrigimos aqui:
+- Semana de 05/10: a conversa prévia com um comerciante da cantina da química não ocorreu.
+- Semana de 28/09: a call com o professor marcada para 30/09 não aconteceu.
