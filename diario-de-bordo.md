@@ -122,7 +122,7 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
 ### Semana de 19/10 (registrada com atraso, em 01/11)
 
-**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — 0h; Cleyber — [PREENCHER]
+**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — 0h; Cleyber — 0h
 
 **O que foi feito:** Diego implementou o registro de acessos com `?ref=` na API 1 e ajustes no `api1.py` (commits de 19/10 e 24/10). Pouco avanço do restante da equipe, por provas e atividades de outras disciplinas.
 
@@ -132,7 +132,7 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
 ### Semana de 26/10
 
-**Quem trabalhou e quanto:** Samuel — cerca de 4h (2h de pesquisa sobre deploy ao longo da semana e cerca de 2h em 01/11); Cleyber — [horas dele]; Diego — [horas dele]
+**Quem trabalhou e quanto:** Samuel — cerca de 4h (2h de pesquisa sobre deploy ao longo da semana e cerca de 2h em 01/11); Cleyber — 2h; Diego — [horas dele]
 
 **O que foi feito:** Samuel e Cleyber visitaram o Mercado da Praça (28/10). Cleyber conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel pesquisou como publicar o app no Render, corrigiu o README e os testes, fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe, e publicou o app em https://extensaoapi.onrender.com (01/11).
 
