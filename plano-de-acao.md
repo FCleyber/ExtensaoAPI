@@ -17,23 +17,25 @@ Um pequeno comerciante que precisa reajustar o preço de um produto não consegu
 ## Campo 2 — O público externo
 
 - **Quem é:** Donos ou gerentes de mercados de bairro e outros pequenos comerciantes de Fortaleza que realizam reajustes de preços e têm interesse em compreender sua relação com a inflação, sem necessidade de conhecimento técnico em economia.
-- **Duas ou três pessoas reais desse grupo:** Donos ou gerentes de dois a três mercados de bairro de Fortaleza, escolhidos perto da casa de cada integrante da equipe, onde é possível entrar e conversar pessoalmente. O nome do mercado, do responsável e do bairro serão registrados no `evidencias.csv` e no `diario-de-bordo.md` já na primeira visita.
-- **Já falamos com alguma? Quando falaremos?** Ainda não. O primeiro contato **não depende do produto**: será um convite para uma conversa curta sobre como o comerciante decide e aplica reajustes, o que também valida o problema do Campo 1. Cronograma de tentativas, uma por comerciante em cada rodada:
-  - 1ª rodada: primeira visita da equipe aos mercados em **10/10/2026** (quem não for encontrado nesse dia é procurado de novo **até 11/10/2026**)
-  - 2ª rodada (nova tentativa a quem não respondeu, e convite para testar a página do produto a quem respondeu): **até 25/10/2026**
-  - 3ª rodada, já com o produto utilizável (Marco 2): **entre 14/11 e 22/11/2026**
+- **Duas ou três pessoas reais desse grupo:** (1) a dona da loja Tudo Limpo (produtos de limpeza), contatada por intermédio de uma conhecida de um integrante da equipe; (2) o gerente do Mercado da Praça, comércio local de bairro; (3) o Raimundo, comerciante local. Por privacidade, o repositório público usa só o primeiro nome ou a descrição do comércio.
+- **Já falamos com alguma? Quando falaremos?** Sim. O primeiro contato não dependeu do produto: foi uma conversa curta, por WhatsApp ou presencial, com uma lista de perguntas sobre como o comerciante decide e aplica reajustes, o que também valida o problema do Campo 1. O que já aconteceu, com a evidência em `evidencias.csv` e na pasta `evidencias/`:
+  - Loja Tudo Limpo: lista de perguntas enviada por WhatsApp em 09/10; respostas recebidas em 12/10.
+  - Mercado da Praça: mensagem em 18/10, sem resposta; visita presencial em 28/10, quando foi informado que a ajuda viria do gerente por WhatsApp; nova mensagem em 31/10, ainda sem resposta.
+  - Raimundo: conversa presencial em 31/10; respondeu à lista de perguntas e aceitou testar o produto com ajuda da equipe.
 
-  Toda tentativa (convite enviado, e-mail, mensagem sem resposta) vira uma linha em `evidencias.csv` e uma entrada no `diario-de-bordo.md`, independentemente de haver resposta.
+  As duas respostas confirmam o problema do Campo 1: nenhum dos dois compara o reajuste com a inflação. A loja Tudo Limpo respondeu "Não" à pergunta sobre essa comparação, e o Raimundo disse que vê notícias sobre a inflação, mas não acompanha os números nem faz contas para cada produto.
+
+  Próximos passos: combinar o teste do produto com o Raimundo e com a loja Tudo Limpo assim que a API 2 e a página de uso estiverem publicadas (Marco 2), entregando a cada um um link com marcador próprio (ver Campo 7), e voltar a procurar o Mercado da Praça. Toda tentativa (convite enviado, visita, mensagem sem resposta) vira uma linha em `evidencias.csv` e uma entrada no `diario-de-bordo.md`, independentemente de haver resposta.
 - **Como essa pessoa vai descobrir que o produto existe:** Por meio de contato direto da equipe, que entregará a cada comerciante um link com marcador próprio (ver Campo 7), e, posteriormente, pela divulgação em canais de entidades estudantis e redes sociais relacionadas a negócios, economia e empreendedorismo.
 
 ## Campo 3 — Trilha e produto
 
-- **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:** Um serviço de APIs públicas que consulta o IPCA e permite comparar a variação do preço de um produto com a inflação acumulada em um período, apresentando o resultado em linguagem simples. O código ficará no repositório público da equipe e o serviço será **publicado num endereço na internet até o Marco 3** (hospedagem a ser confirmada pela equipe até o Marco 2; candidatas: Render, Railway ou Cloudflare Workers, todas com plano gratuito).
+- **O que é, em uma frase que caiba num tuíte, e onde ficará publicado:** Um serviço de APIs públicas que consulta o IPCA e permite comparar a variação do preço de um produto com a inflação acumulada em um período, apresentando o resultado em linguagem simples. O código fica no repositório público da equipe e o serviço será **publicado num endereço na internet até o Marco 2 (13/11)**, no Render (plano gratuito), para que os comerciantes tenham onde clicar antes do Marco 3.
 
 O produto será desenvolvido em etapas:
 
 - **API 1 (Marco 1):** consulta o IPCA mensal disponibilizado pelo Banco Central e retorna os dados em JSON de forma organizada. O README do repositório traz o comando exato para executá-la.
-- **API 2 (Marco 2):** recebe preço inicial, preço final e dois meses de referência, calcula a variação do preço e o IPCA acumulado, compara os resultados e gera uma explicação em linguagem simples.
+- **API 2 (Marco 2, em desenvolvimento desde 01/11):** recebe preço inicial, preço final e dois meses de referência, calcula a variação do preço e o IPCA acumulado, compara os resultados e gera uma explicação em linguagem simples.
 - **Página de uso (Marco 2):** uma página web mínima, com formulário de quatro campos, que chama a API 2. É por ela que o comerciante usará o produto, já que o público-alvo não consome JSON.
 
 ### Regra de cálculo (definição única, usada pela API 2 e pelos testes)
@@ -79,19 +81,19 @@ O Banco Central informa, para suas séries do SGS relacionadas ao IPCA, periodic
 
 | Integrante | Papel | O que fica sob sua responsabilidade |
 |---|---|---|
-| **Diego Lopes** | Integração de dados | Consultar o BACEN, implementar a coleta do IPCA, garantir que os dados estejam disponíveis para a API e manter o README com o comando de execução da API 1. |
-| **Samuel Luiz** | Desenvolvimento da API 2 | Implementar os cálculos de variação de preço e IPCA acumulado (regra do Campo 3), o template de explicação e a integração opcional do LLM. |
-| **Fernando Cleyber** | Produto e validação externa | Definir o caso de uso, construir a página de uso, organizar os testes com comerciantes, registrar cada contato em `evidencias.csv` e acompanhar a divulgação do produto. |
+| **Diego Lopes** | Publicação e registro de acessos | Publicar o app no Render (deploy), manter o log de chamadas com o marcador `ref` por comerciante e o módulo de explicação (`src/llm/`), restrito ao papel definido no Campo 3. |
+| **Samuel Luiz** | APIs 1 e 2 | Coleta do IPCA no SGS (API 1) e API 2: cálculos de variação de preço e IPCA acumulado (regra do Campo 3), com testes conferidos à mão, e a página de uso. |
+| **Fernando Cleyber** | Produto e validação externa | Definir o caso de uso, organizar os testes com comerciantes, registrar cada contato em `evidencias.csv` e acompanhar a divulgação do produto. |
 
 ## Campo 6 — Cronograma
 
 | Data | O que estará pronto |
 |---|---|
 | **04/10 (Marco 1, entrega remota)** | API 1 funcional, consultando o IPCA (série 433) no BACEN e retornando os dados em JSON de forma organizada, com README contendo o comando exato para executá-la e documentação básica do endpoint. Arquivos de `03-modelos` na raiz do repositório com os nomes oficiais. |
-| **10/10 e 11/10** | Primeira rodada: visitas aos mercados (10/10) e nova tentativa a quem faltar (até 11/10), tudo registrado em `evidencias.csv`. |
-| **25/10** | Segunda rodada de contato registrada. |
-| **13/11 (Marco 2)** | API 2 funcional, com a regra de cálculo do Campo 3, comparação e explicação em linguagem simples (template; LLM opcional). Página de uso mínima funcionando. Log de requisições ativo, registrando o marcador `ref` de cada chamada. |
-| **27/11 (Marco 3)** | Produto **publicado num endereço na internet**, testado com o público externo, com pelo menos três comerciantes contatados (tentativas e retornos registrados em `evidencias.csv`). |
+| **09/10 a 18/10** | Primeira rodada realizada: loja Tudo Limpo (09/10) e Mercado da Praça (18/10), registradas em `evidencias.csv` (ver Campo 2). |
+| **28/10 a 31/10** | Segunda rodada realizada: visita ao Mercado da Praça (28/10) e conversa com o Raimundo (31/10), que aceitou testar o produto (ver Campo 2). |
+| **13/11 (Marco 2)** | API 2 funcional, com a regra de cálculo do Campo 3, comparação e explicação em linguagem simples (template; LLM opcional). Página de uso mínima funcionando. Log de requisições ativo, registrando o marcador `ref` de cada chamada. **App publicado no Render, com endereço público**, e teste combinado com o Raimundo e a loja Tudo Limpo. |
+| **27/11 (Marco 3)** | Produto (já publicado desde o Marco 2) testado com o público externo, com pelo menos três comerciantes contatados (tentativas e retornos registrados em `evidencias.csv`), indicadores medidos e documentação final. |
 | **04/12 (Socialização)** | Apresentação do projeto e demonstração do produto funcionando no endereço publicado. |
 
 **Dependências externas.**
@@ -113,9 +115,9 @@ O Banco Central informa, para suas séries do SGS relacionadas ao IPCA, periodic
 - [x] Riscamos tudo o que não conseguiríamos terminar até 13/11 (ver Nota de escopo).
 - [x] O que sobrou ainda ajuda alguém.
 - [x] Uma pessoa de fora entende o Campo 1 e o Campo 3 sem explicação oral.
-- [ ] Os mercados e a data da primeira visita (**10/10/2026**) estão definidos, com o nome do responsável de cada um.
+- [x] Os contatos reais com o público (loja, mercado e comerciante) estão descritos no Campo 2 e registrados em `evidencias.csv`.
 - [x] Os indicadores podem ser medidos pela própria equipe (contagem: log da API com marcador por contato; qualitativa: respostas registradas no diário, com alternativa documentada).
 - [x] Os arquivos estão na raiz do repositório com os nomes de `03-modelos`.
 - [x] Um clone limpo do repositório roda a API 1 seguindo só o README (testado em 04/10).
 
-**Nota de escopo:** O projeto foi reduzido para concentrar-se em uma comparação objetiva entre a variação de preço de um produto e o IPCA acumulado entre dois meses. A API 1 será deliberadamente simples no Marco 1; cálculo, comparação, explicação e página de uso ficam para o Marco 2; publicação em endereço na internet e teste com o público ficam para o Marco 3.
+**Nota de escopo:** O projeto foi reduzido para concentrar-se em uma comparação objetiva entre a variação de preço de um produto e o IPCA acumulado entre dois meses. A API 1 foi deliberadamente simples no Marco 1; cálculo, comparação, explicação, página de uso e publicação em endereço na internet ficam para o Marco 2; o teste com o público e a documentação final ficam para o Marco 3.
