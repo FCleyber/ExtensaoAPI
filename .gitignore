@@ -1,2 +1,13 @@
+# Dados baixados do SGS (gerados pelo script de coleta)
 data/*.json
-data/*.json
+dados_ipca.json
+
+# Log local de acessos com ?ref= (no Render, os acessos ficam nos logs do serviço)
+acessos.csv
+
+# Chaves de API e configurações locais: nunca enviar ao GitHub
+.env
+
+# Arquivos gerados pelo Python
+__pycache__/
+*.pyc
