@@ -12,9 +12,10 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from schemas import ExplicacaoReajuste
 
-PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
+# O prompt fica na mesma pasta deste módulo (src/llm/reajuste.TXT).
+PROMPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROMPT_ARQUIVO = "reajuste.TXT"
 MAX_OUTPUT_TOKENS = 500
 
 
@@ -53,7 +54,9 @@ def _provedor_disponivel() -> str | None:
     
 
 
-def _call_anthropic(system: str, user: str) -> ExplicacaoReajuste:
+def _call_anthropic(system: str, user: str):
+    # Imports pesados só aqui: sem LLM, o produto roda sem instalar nada.
+    from schemas import ExplicacaoReajuste
     import anthropic
     client = anthropic.Anthropic()
     tool = {
@@ -75,7 +78,8 @@ def _call_anthropic(system: str, user: str) -> ExplicacaoReajuste:
     raise RuntimeError("Anthropic não retornou tool_use.")
 
 
-def _call_gemini(system: str, user: str) -> ExplicacaoReajuste:
+def _call_gemini(system: str, user: str):
+    from schemas import ExplicacaoReajuste
     from google import genai
     from google.genai import types
 
@@ -113,7 +117,6 @@ def explicar_reajuste(variacao_preco_pct: float, ipca_acumulado_pct: float,
     if not usar_llm or not provedor:
         return texto_padrao
 
-    system = _ler_prompt("explicar_reajuste.txt")
     user = (
         f"Período: {mes_inicial} a {mes_final}\n"
         f"Variação do preço: {variacao_preco_pct:.2f}%\n"
@@ -122,6 +125,7 @@ def explicar_reajuste(variacao_preco_pct: float, ipca_acumulado_pct: float,
         f"Diferença: {diferenca_pp:.2f} pontos percentuais")
 
     try:
+        system = _ler_prompt(PROMPT_ARQUIVO)
         if provedor == "anthropic":
             return _call_anthropic(system, user).explicacao
         return _call_gemini(system, user).explicacao
