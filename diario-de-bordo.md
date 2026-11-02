@@ -120,6 +120,7 @@ Contato com o público: Contato com o público: Samuel e Cleyber fizeram contato
 
 Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
+<<<<<<< Updated upstream
 ### Semana de 19/10 (registrada com atraso, em 01/11)
 
 **Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — 0h; Cleyber — 0h
@@ -146,3 +147,8 @@ As entradas anteriores não foram reescritas, conforme orientação do professor
 - Semana de 05/10: a conversa prévia com um comerciante da cantina da química não ocorreu.
 - Semana de 28/09: a call com o professor marcada para 30/09 não aconteceu.
 - Semanas de 07/09 a 28/09: as entradas foram reconstruídas em 04/10, a partir do grupo da equipe, dos e-mails e do repositório, como declarado na ficha do Marco 1.
+=======
+## semana 19
+
+Quem trabalhou e quanto: Diego ;
+>>>>>>> Stashed changes
