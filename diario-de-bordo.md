@@ -120,10 +120,10 @@ Contato com o público: Contato com o público: Samuel e Cleyber fizeram contato
 
 Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
-<<<<<<< Updated upstream
+
 ### Semana de 19/10 (registrada com atraso, em 01/11)
 
-**Quem trabalhou e quanto:** Diego — [PREENCHER horas reais]; Samuel — 0h; Cleyber — 0h
+**Quem trabalhou e quanto:** Diego — não informado; Samuel — 0h; Cleyber — 0h
 
 **O que foi feito:** Diego implementou o registro de acessos com `?ref=` na API 1 e ajustes no `api1.py` (commits de 19/10 e 24/10). Pouco avanço do restante da equipe, por provas e atividades de outras disciplinas.
 
@@ -133,7 +133,7 @@ Próxima semana: deploy da API no Render; mais contato com comerciantes;
 
 ### Semana de 26/10
 
-**Quem trabalhou e quanto:** Samuel — cerca de 4h (2h de pesquisa sobre deploy ao longo da semana e cerca de 2h em 01/11); Cleyber — 2h; Diego — [horas dele]
+**Quem trabalhou e quanto:** Samuel — cerca de 4h (2h de pesquisa sobre deploy ao longo da semana e cerca de 2h em 01/11); Cleyber — 2h; Diego — não informado.
 
 **O que foi feito:** Samuel e Cleyber visitaram o Mercado da Praça (28/10). Cleyber conversou com o Raimundo, que aceitou testar o produto (31/10), e organizou o `evidencias.csv` e os prints. Samuel pesquisou como publicar o app no Render, corrigiu o README e os testes, fez a API 2 e a página de uso, com apoio do Claude (IA), revisadas e testadas pela equipe, e publicou o app em https://extensaoapi.onrender.com (01/11).
 
@@ -148,7 +148,14 @@ As entradas anteriores não foram reescritas, conforme orientação do professor
 - Semana de 28/09: a call com o professor marcada para 30/09 não aconteceu.
 - Semanas de 07/09 a 28/09: as entradas foram reconstruídas em 04/10, a partir do grupo da equipe, dos e-mails e do repositório, como declarado na ficha do Marco 1.
 =======
-## semana 19
+### Semana de 02/11
 
+**Quem trabalhou e quanto:** Samuel — cerca de 4h; Cleyber — [horas dele ou "não informado"]; Diego — [horas dele ou "não informado"]
+
+**O que foi feito:** Samuel acrescentou ao app uma cópia de reserva do IPCA para quando o Banco Central não responder, o limite de 5 anos no período e a exibição do período na página, com 5 testes novos (31 no total), e publicou a nova versão no Render.
+
+**Contato com o público:** nenhum nesta semana; a visita e o teste com os comerciantes não aconteceram por falta de tempo da equipe.
+
+**Próxima semana:** enviar os links com `?ref=` ao Raimundo e à loja Tudo Limpo, e preparar a ficha do Marco 2 (13/11).
 Quem trabalhou e quanto: Diego ;
 >>>>>>> Stashed changes
