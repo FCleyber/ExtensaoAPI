@@ -147,15 +147,14 @@ As entradas anteriores não foram reescritas, conforme orientação do professor
 - Semana de 05/10: a conversa prévia com um comerciante da cantina da química não ocorreu.
 - Semana de 28/09: a call com o professor marcada para 30/09 não aconteceu.
 - Semanas de 07/09 a 28/09: as entradas foram reconstruídas em 04/10, a partir do grupo da equipe, dos e-mails e do repositório, como declarado na ficha do Marco 1.
-=======
+
+
 ### Semana de 02/11
 
-**Quem trabalhou e quanto:** Samuel — cerca de 4h; Cleyber — [horas dele ou "não informado"]; Diego — [horas dele ou "não informado"]
+**Quem trabalhou e quanto:** Samuel — cerca de 4h; Cleyber — não informado; Diego — não informado
 
 **O que foi feito:** Samuel acrescentou ao app uma cópia de reserva do IPCA para quando o Banco Central não responder, o limite de 5 anos no período e a exibição do período na página, com 5 testes novos (31 no total), e publicou a nova versão no Render.
 
 **Contato com o público:** nenhum nesta semana; a visita e o teste com os comerciantes não aconteceram por falta de tempo da equipe.
 
 **Próxima semana:** enviar os links com `?ref=` ao Raimundo e à loja Tudo Limpo, e preparar a ficha do Marco 2 (13/11).
-Quem trabalhou e quanto: Diego ;
->>>>>>> Stashed changes
