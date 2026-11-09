@@ -94,6 +94,18 @@ class TestCalculo(unittest.TestCase):
         self.assertIn("3,0%", r["explicacao"])
         self.assertIn("acima", r["explicacao"])
 
+    def test_periodo_considerado_na_resposta(self):
+        r = api2.comparar(100, "2026-01", 105, "2026-03", SERIE)
+        self.assertEqual(r["periodo_considerado"], {"de": "2026-02", "ate": "2026-03"})
+        self.assertEqual(r["ultimo_mes_disponivel"], "2026-04")
+
+    def test_limite_de_5_anos(self):
+        serie = api1.normalizar([{"data": "01/%02d/%d" % (m, a), "valor": "0.10"}
+                                 for a in range(2019, 2027) for m in range(1, 13)])
+        api2.comparar(10, "2020-01", 11, "2025-01", serie)  # exatamente 60 meses: aceito
+        with self.assertRaises(api2.ErroEntrada):
+            api2.comparar(10, "2020-01", 11, "2025-02", serie)  # 61 meses: recusado
+
     def test_mes_final_nao_posterior(self):
         with self.assertRaises(api2.ErroEntrada):
             api2.comparar(100, "2026-03", 105, "2026-03", SERIE)
@@ -103,6 +115,48 @@ class TestCalculo(unittest.TestCase):
             api2.comparar(100, "2025-12", 105, "2026-03", SERIE)
         with self.assertRaises(api2.ErroEntrada):
             api2.comparar(100, "2026-01", 105, "2026-05", SERIE)
+
+
+class TestReserva(unittest.TestCase):
+    """Plano B: se o Banco Central não responder, usa a cópia salva em dados/."""
+
+    def setUp(self):
+        self.original = (api1.baixar_serie, api1.RESERVA, dict(api1._cache))
+        api1._cache.update({"quando": 0.0, "dados": None, "fonte": None})
+
+        def falha():
+            raise urllib.error.URLError("sem conexão (simulado)")
+        api1.baixar_serie = falha
+
+    def tearDown(self):
+        api1.baixar_serie, api1.RESERVA, cache = self.original
+        api1._cache.clear()
+        api1._cache.update(cache)
+
+    def test_usa_a_reserva_quando_o_banco_central_falha(self):
+        tmp = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+        json.dump({"dados": [{"data": "01/01/2026", "valor": "0.50"},
+                             {"data": "01/02/2026", "valor": "1.00"}]}, tmp)
+        tmp.close()
+        try:
+            api1.RESERVA = tmp.name
+            dados = api1.obter_dados()
+            self.assertEqual(dados[-1], {"mes": "2026-02", "ipca_mensal_pct": 1.0})
+            self.assertEqual(api1.fonte_dos_dados(), "reserva")
+            r = api2.comparar(100, "2026-01", 101, "2026-02", dados)
+            self.assertEqual(r["fonte_dados"], "reserva")
+        finally:
+            os.remove(tmp.name)
+
+    def test_sem_reserva_o_erro_original_sobe(self):
+        api1.RESERVA = "/caminho/que/nao/existe.json"
+        with self.assertRaises(urllib.error.URLError):
+            api1.obter_dados()
+
+    def test_reserva_do_repositorio_e_valida(self):
+        dados = api1.carregar_reserva()
+        self.assertGreater(len(dados), 500)
+        self.assertEqual(dados[0]["mes"], "1980-01")
 
 
 class TestServidor(unittest.TestCase):
