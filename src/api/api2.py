@@ -26,6 +26,7 @@ import api1
 
 LLM_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "llm")
 LIMIAR_PROXIMO_PP = 1.0  # diferença de até 1 ponto percentual = "próximo"
+LIMITE_MESES = 60  # o plano compara poucos meses ou anos, não décadas
 AVISO = "Resultado informativo; não substitui orientação econômica ou profissional."
 
 
@@ -61,6 +62,13 @@ def acumular_ipca(serie, mes_inicial, mes_final):
     for d in meses:
         fator *= 1 + d["ipca_mensal_pct"] / 100
     return (fator - 1) * 100, [d["mes"] for d in meses]
+
+
+def meses_entre(mes_inicial, mes_final):
+    """Número de meses de mes_inicial até mes_final (ex.: 2026-01 a 2026-08 = 7)."""
+    ano_i, m_i = map(int, mes_inicial.split("-"))
+    ano_f, m_f = map(int, mes_final.split("-"))
+    return (ano_f - ano_i) * 12 + (m_f - m_i)
 
 
 def classificar(diferenca_pp):
@@ -103,6 +111,8 @@ def comparar(preco_inicial, mes_inicial, preco_final, mes_final, serie):
     """Regra de cálculo do plano de ação (Campo 3). Levanta ErroEntrada se inválido."""
     if mes_final <= mes_inicial:
         raise ErroEntrada("'mes_final' deve ser posterior a 'mes_inicial'.")
+    if meses_entre(mes_inicial, mes_final) > LIMITE_MESES:
+        raise ErroEntrada("O período máximo é de 5 anos (60 meses). Escolha meses mais próximos.")
     primeiro, ultimo = serie[0]["mes"], serie[-1]["mes"]
     if mes_inicial < primeiro or mes_final > ultimo:
         raise ErroEntrada(
@@ -122,6 +132,9 @@ def comparar(preco_inicial, mes_inicial, preco_final, mes_final, serie):
         "diferenca_pp": diferenca,
         "classificacao": classificacao,
         "meses_considerados": len(meses),
+        "periodo_considerado": {"de": meses[0], "ate": meses[-1]} if meses else None,
+        "ultimo_mes_disponivel": ultimo,
+        "fonte_dados": api1.fonte_dos_dados(),
         "explicacao": explicar(classificacao, diferenca, variacao, ipca, mes_inicial, mes_final),
         "fonte": api1.FONTE,
         "aviso": AVISO,
@@ -134,7 +147,7 @@ AJUDA = {
     "rotas": {
         "GET /": "página de uso (formulário)",
         "GET /comparar?preco_inicial=10&mes_inicial=2026-01&preco_final=10,80&mes_final=2026-08":
-            "compara o reajuste com o IPCA acumulado do mês seguinte ao inicial até o final, inclusive",
+            "compara o reajuste com o IPCA acumulado do mês seguinte ao inicial até o final, inclusive (período máximo de 5 anos)",
         "GET /ipca": "API 1: série do IPCA (aceita inicio e fim, AAAA-MM)",
         "GET /ajuda": "esta ajuda",
     },
@@ -184,7 +197,7 @@ PAGINA = r"""<!doctype html>
     <button type="submit">Comparar</button>
   </form>
   <section id="r" aria-live="polite"></section>
-  <small>Fonte: IPCA, produzido pelo IBGE e disponibilizado pelo Banco Central do Brasil (SGS, série 433). Resultado informativo; não substitui orientação econômica ou profissional.</small>
+  <small>Compare meses dentro de um período de até 5 anos. Fonte: IPCA, produzido pelo IBGE e disponibilizado pelo Banco Central do Brasil (SGS, série 433). Resultado informativo; não substitui orientação econômica ou profissional.</small>
 </main>
 <script>
 (function () {
@@ -193,6 +206,8 @@ PAGINA = r"""<!doctype html>
   function v(id) { return document.getElementById(id).value; }
   function linha(texto) { var li = document.createElement('li'); li.textContent = texto; return li; }
   function br(n) { return Number(n).toLocaleString('pt-BR', { maximumFractionDigits: 2 }); }
+  var NOMES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  function mes(m) { var p = String(m).split('-'); return NOMES[Number(p[1]) - 1] + '/' + p[0]; }
   document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
     var q = new URLSearchParams({
@@ -218,8 +233,18 @@ PAGINA = r"""<!doctype html>
           ul.appendChild(linha('Variação do seu preço: ' + br(x.d.variacao_preco_pct) + '%'));
           ul.appendChild(linha('Inflação (IPCA) no período: ' + br(x.d.ipca_acumulado_pct) + '%'));
           ul.appendChild(linha('Diferença: ' + br(x.d.diferenca_pp) + ' pontos percentuais'));
+          if (x.d.periodo_considerado) {
+            ul.appendChild(linha('Inflação somada de ' + mes(x.d.periodo_considerado.de) + ' a ' +
+              mes(x.d.periodo_considerado.ate) + ' (' + x.d.meses_considerados + ' meses)'));
+          }
           card.appendChild(p);
           card.appendChild(ul);
+          if (x.d.fonte_dados === 'reserva') {
+            var aviso = document.createElement('small');
+            aviso.textContent = 'O Banco Central não respondeu agora. Usamos a última cópia salva dos dados, até ' +
+              mes(x.d.ultimo_mes_disponivel) + '.';
+            card.appendChild(aviso);
+          }
         }
         r.appendChild(card);
       })
