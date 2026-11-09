@@ -28,7 +28,11 @@ CACHE_SEGUNDOS = 3600
 LOG_ACESSOS = os.environ.get("LOG_ACESSOS", "acessos.csv")
 
 
-_cache = {"quando": 0.0, "dados": None}
+_cache = {"quando": 0.0, "dados": None, "fonte": None}
+
+# Cópia de reserva da série, usada quando o Banco Central não responde.
+RESERVA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "dados", "ipca_reserva.json")
+RETENTAR_SEGUNDOS = 300  # usando a reserva, tenta o Banco Central de novo em 5 minutos
 
 
 def baixar_serie():
@@ -57,13 +61,39 @@ def filtrar(dados, inicio=None, fim=None):
     ]
 
 
+def carregar_reserva():
+    """Lê a cópia de reserva (mesmo formato do SGS) e devolve a série normalizada."""
+    with open(RESERVA, encoding="utf-8") as f:
+        conteudo = json.load(f)
+    # Aceita {"dados": [...]} ou a lista crua baixada direto do SGS.
+    registros = conteudo["dados"] if isinstance(conteudo, dict) else conteudo
+    return normalizar(registros)
+
+
 def obter_dados():
-    """Série normalizada, com cache em memória de 1 hora."""
+    """Série normalizada, com cache em memória de 1 hora.
+
+    Se o Banco Central não responder, usa a cópia de reserva (dados/ipca_reserva.json)
+    e tenta o Banco Central de novo em 5 minutos. Sem reserva, o erro original sobe."""
     agora = time.time()
     if _cache["dados"] is None or agora - _cache["quando"] > CACHE_SEGUNDOS:
-        _cache["dados"] = normalizar(baixar_serie())
-        _cache["quando"] = agora
+        try:
+            _cache["dados"] = normalizar(baixar_serie())
+            _cache["fonte"] = "banco_central"
+            _cache["quando"] = agora
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as erro:
+            try:
+                _cache["dados"] = carregar_reserva()
+            except (OSError, ValueError, KeyError):
+                raise erro
+            _cache["fonte"] = "reserva"
+            _cache["quando"] = agora - CACHE_SEGUNDOS + RETENTAR_SEGUNDOS
     return _cache["dados"]
+
+
+def fonte_dos_dados():
+    """'banco_central' ou 'reserva' (cópia salva)."""
+    return _cache.get("fonte") or "banco_central"
 
 
 def montar_resposta(inicio=None, fim=None):
@@ -80,6 +110,7 @@ def montar_resposta(inicio=None, fim=None):
         "serie_sgs": SERIE,
         "unidade": UNIDADE,
         "ultimo_mes_disponivel": todos[-1]["mes"] if todos else None,
+        "fonte_dados": fonte_dos_dados(),
         "total": len(selecionados),
         "dados": selecionados,
     }
