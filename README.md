@@ -40,9 +40,18 @@ Deixe o terminal aberto e acesse no navegador:
 - **IPCA acumulado (%)** = (Π (1 + IPCA do mês / 100) − 1) × 100, do mês **seguinte** a `mes_inicial` até `mes_final`, inclusive. O mês inicial não entra, porque o preço inicial já incorpora a inflação dele.
 - **Comparação:** diferença = variação do preço − IPCA acumulado. Até 1 ponto percentual (para mais ou para menos) é `proximo`; acima disso, `acima` ou `abaixo`.
 - Preços aceitam vírgula (`10,80`). Meses no formato `AAAA-MM`, entre o primeiro e o último mês com dado do IPCA.
+- **Período máximo:** 5 anos (60 meses) entre o mês inicial e o final. O produto compara poucos meses ou anos, não décadas.
 - Exemplo: R$ 10,00 para R$ 10,80 (+8,0%) com IPCA acumulado de 5,0% resulta em `acima`, 3,0 pontos percentuais.
 
-Resposta de exemplo de `/comparar` (campos principais): `variacao_preco_pct`, `ipca_acumulado_pct`, `diferenca_pp`, `classificacao`, `meses_considerados`, `explicacao`, `fonte` e `aviso`.
+Resposta de exemplo de `/comparar` (campos principais): `variacao_preco_pct`, `ipca_acumulado_pct`, `diferenca_pp`, `classificacao`, `meses_considerados`, `periodo_considerado` (de/até), `ultimo_mes_disponivel`, `fonte_dados`, `explicacao`, `fonte` e `aviso`.
+
+### Se o Banco Central não responder
+
+O app usa a cópia de reserva `dados/ipca_reserva.json` e tenta o Banco Central de novo em 5 minutos. Nesse caso, `fonte_dados` vem como `reserva` e a página avisa até que mês vão os dados. Para atualizar a cópia (por exemplo, depois que o IBGE divulgar um novo mês):
+
+```bash
+curl -o dados/ipca_reserva.json "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json"
+```
 
 Erros: entrada inválida (preço zero ou não numérico, mês fora do formato, `mes_final` não posterior ao inicial, mês sem dado) retorna HTTP 400 com `{"erro": "..."}`; Banco Central fora do ar retorna HTTP 502.
 
@@ -144,6 +153,7 @@ Os testes usam dados simulados e não precisam de internet.
 | `evidencias.csv` e `evidencias/` | Registro e comprovantes dos contatos com o público externo |
 | `src/api/api1.py` | Código da API 1 (IPCA em JSON) |
 | `src/api/api2.py` | API 2 (comparação com o IPCA) e página de uso; também serve a API 1 |
+| `dados/ipca_reserva.json` | Cópia de reserva da série 433, usada se o Banco Central não responder |
 | `src/llm/` | Módulo que escreve a explicação em linguagem simples (texto padrão sem chave; LLM opcional) |
 | `coleta de dados/` | Script auxiliar de coleta do IPCA no SGS (usa a biblioteca `requests`) |
 | `tests/` | Testes da API 1 e da API 2 (`test_api1.py`, `test_api2.py`) |
