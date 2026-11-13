@@ -64,8 +64,8 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 ## Antes de entregar
 
 - [x] O endereço do produto abre numa máquina que não é a nossa.
-- [ ] O que o Campo 1 promete foi testado hoje, não na semana passada.
+- [x] O que o Campo 1 promete foi testado hoje, não na semana passada.
 - [x] O `README.md` corresponde ao que o produto faz agora.
 - [x] O diário tem entrada de todas as semanas desde o último marco.
 - [x] Toda evidência do Campo 3 tem data e está em `evidencias/`.
-- [ ] O commit informado está publicado (tag `marco-2`).
+- [x] O commit informado está publicado (tag `marco-2`).
