@@ -1,0 +1,49 @@
+# Acessos ao app publicado (https://extensaoapi.onrender.com), copiados dos logs do Render em 13/11/2026.
+# Horários das linhas ACESSO em UTC (Fortaleza = UTC-3): os acessos foram entre 17h04 e 17h21 e entre 18h42 e 18h44 de 13/11.
+# Formato: ACESSO data-hora,ref,rota,status (200 = resultado mostrado; 400 = entrada inválida).
+# Linhas sem ref (GET / e robots.txt) são de robôs de busca e não contam como uso.
+
+127.0.0.1 "GET /?ref=raimundo HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:04:22+00:00,raimundo,/,200
+127.0.0.1 "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 "GET /comparar?preco_inicial=2%2C00&mes_inicial=2020-12&preco_final=4%2C00&mes_final=2026-11&ref=raimundo HTTP/1.1" 400 -
+ACESSO 2026-11-13T20:05:21+00:00,raimundo,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=2%2C00&mes_inicial=2022-12&preco_final=4%2C00&mes_final=2026-11&ref=raimundo HTTP/1.1" 400 -
+ACESSO 2026-11-13T20:05:30+00:00,raimundo,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=2%2C00&mes_inicial=2022-01&preco_final=4%2C00&mes_final=2026-02&ref=raimundo HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:05:55+00:00,raimundo,/comparar,200
+127.0.0.1 "GET /?ref=mercado-da-praca HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:15:58+00:00,mercado-da-praca,/,200
+127.0.0.1 "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 "GET /comparar?preco_inicial=100&mes_inicial=2026-01&preco_final=50&mes_final=2026-02&ref=mercado-da-praca HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:16:36+00:00,mercado-da-praca,/comparar,200
+127.0.0.1 "GET /?ref=tudo-limpo HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:19:07+00:00,tudo-limpo,/,200
+127.0.0.1 "GET /?ref=tudo-limpo HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:19:29+00:00,tudo-limpo,/,200
+127.0.0.1 "GET / HTTP/1.1" 200 -
+127.0.0.1 "GET / HTTP/1.1" 200 -
+127.0.0.1 "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 "GET /?ref=mercado-da-praca HTTP/1.1" 200 -
+ACESSO 2026-11-13T20:20:20+00:00,mercado-da-praca,/,200
+127.0.0.1 "GET /comparar?preco_inicial=2000&mes_inicial=2026-11&preco_final=1000&mes_final=2026-12&ref=mercado-da-praca HTTP/1.1" 400 -
+ACESSO 2026-11-13T20:20:38+00:00,mercado-da-praca,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=2000&mes_inicial=2026-11&preco_final=1000&mes_final=2026-08&ref=mercado-da-praca HTTP/1.1" 400 -
+ACESSO 2026-11-13T20:20:47+00:00,mercado-da-praca,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=2000&mes_inicial=2026-11&preco_final=1000&mes_final=2027-01&ref=mercado-da-praca HTTP/1.1" 400 -
+ACESSO 2026-11-13T20:20:57+00:00,mercado-da-praca,/comparar,400
+==> Running 'python src/api/api2.py'
+App no ar (escutando em 0.0.0.0:10000). Abra http://127.0.0.1:10000/  (Ctrl+C para parar)
+127.0.0.1 "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 "HEAD /?ref=tudo-limpo HTTP/1.1" 200 -
+127.0.0.1 "GET /?ref=tudo-limpo HTTP/1.1" 200 -
+ACESSO 2026-11-13T21:42:14+00:00,tudo-limpo,/,200
+127.0.0.1 "GET /comparar?preco_inicial=23%2C+63&mes_inicial=2026-08&preco_final=25%2C00&mes_final=2026-11&ref=tudo-limpo HTTP/1.1" 400 -
+ACESSO 2026-11-13T21:43:26+00:00,tudo-limpo,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=23%2C63&mes_inicial=2026-08&preco_final=25%2C00&mes_final=2026-11&ref=tudo-limpo HTTP/1.1" 400 -
+ACESSO 2026-11-13T21:43:36+00:00,tudo-limpo,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=23%2C63&mes_inicial=2026-09&preco_final=25%2C00&mes_final=2026-11&ref=tudo-limpo HTTP/1.1" 400 -
+ACESSO 2026-11-13T21:43:42+00:00,tudo-limpo,/comparar,400
+127.0.0.1 "GET /comparar?preco_inicial=23%2C63&mes_inicial=2026-06&preco_final=25%2C00&mes_final=2026-10&ref=tudo-limpo HTTP/1.1" 200 -
+ACESSO 2026-11-13T21:43:56+00:00,tudo-limpo,/comparar,200
