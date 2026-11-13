@@ -158,3 +158,13 @@ As entradas anteriores não foram reescritas, conforme orientação do professor
 **Contato com o público:** nenhum nesta semana; a visita e o teste com os comerciantes não aconteceram por falta de tempo da equipe.
 
 **Próxima semana:** enviar os links com `?ref=` ao Raimundo e à loja Tudo Limpo, e preparar a ficha do Marco 2 (13/11).
+
+### Semana de 09/11 (entrega do Marco 2 em 13/11)
+
+**Quem trabalhou e quanto:** Samuel — cerca de 4h; Cleyber — cerca de 4h; Diego — cerca de 4h (deslocamento e teste com os comerciantes em 13/11)
+
+**O que foi feito:** Em 13/11, a equipe toda visitou os comerciantes para testar a API 2 e entregou os links com marcador próprio ao Raimundo, à loja Tudo Limpo e ao Mercado da Praça. Primeiro uso externo registrado no Render: o Raimundo e alguém do Mercado da Praça fizeram 7 comparações (2 com resultado) e a dona da loja Tudo Limpo abriu a página. Acessos copiados para `evidencias/2026-11-13-acessos-render.txt` e ficha `marco-2.md` preenchida.
+
+**Contato com o público:** visita a 3 comerciantes em 13/11; 2 fizeram comparações e 1 abriu a página. Os que testaram disseram que entenderam o resultado e que a ferramenta pode ser muito útil para ajustar os preços nos meses seguintes. **Obstáculo:** 5 das 7 tentativas deram erro, por escolha de meses que ainda não têm IPCA divulgado.
+
+**Próxima semana:** mostrar na página até que mês há dados e limitar a escolha dos meses; perguntar a cada comerciante se entendeu o resultado.
