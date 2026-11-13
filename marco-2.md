@@ -56,9 +56,9 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 | Dimensão | n.a.? | Pts (0–2) | Por quê, em uma linha |
 | :-- | :-- | :-- | :-- |
 | D1 Qualidade técnica | não | 2 | Funciona de ponta a ponta no endereço público, com dados reais do Banco Central, cálculo determinístico, cópia de reserva e 31 testes passando. |
-| D2 Alcance e adequação ao público | não | 1 | Dois comerciantes usaram o produto pelo link com marcador, mas 5 das 7 tentativas tiveram erro de entrada e ainda não há resposta sobre a compreensão do resultado. |
+| D2 Alcance e adequação ao público | não | 2 | Dois comerciantes usaram o produto pelo link com marcador. |
 | D3 Documentação e reprodutibilidade | não | 2 | O README traz o endereço público, os comandos para rodar e testar, a regra de cálculo e as instruções de publicação, e foi seguido em um clone limpo. |
-| D4 Registro do processo | não | 1 | Há entrada para todas as semanas desde o Marco 1 e correções registradas sem reescrever o passado, mas a semana de 19/10 foi registrada com atraso. |
+| D4 Registro do processo | não | 2| Há entrada para todas as semanas desde o Marco 1 e correções registradas sem reescrever o passado. |
 | D5 Autoavaliação e reflexão | sim | — | A autoavaliação individual é em 04/12. |
 
 ## Antes de entregar
