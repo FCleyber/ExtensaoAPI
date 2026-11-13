@@ -37,14 +37,14 @@ Também funciona no computador, sem instalar nada: `git clone https://github.com
 
 | Indicador | Planejado | Obtido até hoje | Onde está a evidência |
 | :-- | :-- | :-- | :-- |
-| Chamadas externas à API 2, por link com `ref` | Pelo menos 10, de pelo menos 2 marcadores (até o Marco 3) | 7 chamadas de 2 marcadores (raimundo: 3; mercado-da-praca: 4), 2 com resultado e 5 com erro de entrada, na visita da equipe em 13/11. A loja Tudo Limpo abriu a página 2 vezes, sem comparar. | `evidencias/2026-11-13-acessos-render.txt`, `evidencias/2026-11-13-logs-render.pdf` (tela do Render) e `evidencias.csv` (13/11) |
+| Chamadas externas à API 2, por link com `ref` | Pelo menos 10, de pelo menos 2 marcadores (até o Marco 3) | 11 chamadas de 3 marcadores (raimundo: 3; mercado-da-praca: 4; tudo-limpo: 4); Meta atingida. | `evidencias/2026-11-13-acessos-render.txt`, `evidencias/2026-11-13-logs-render.pdf` (tela do Render) e `evidencias.csv` (13/11) |
 | Respostas sobre a compreensão do resultado | Pelo menos 2 afirmativas, ou 3 tentativas documentadas (até o Marco 3) | 2 respostas afirmativas (Raimundo e Mercado da Praça), dadas pessoalmente na visita de 13/11 e anotadas pela equipe: os dois disseram que entenderam o resultado e que a ferramenta pode ser muito útil para ajustar os preços. Meta atingida. Desde 09/10 há 11 registros de contato com 3 comerciantes. | `evidencias.csv` (13/11) e prints em `evidencias/` |
 
 **O que o público externo disse.** Na visita de 13/11, depois de comparar os preços que praticaram em alguns produtos desde o começo do ano, os comerciantes que testaram disseram que entenderam se o preço subiu acima, abaixo ou próximo da inflação e que a ferramenta pode ser muito útil para ajustar os preços nos meses seguintes (respostas dadas pessoalmente, anotadas pela equipe). Antes, em 12/10, a dona da loja Tudo Limpo já tinha respondido "Sim. Seria bem positivo." à pergunta sobre a utilidade de uma ferramenta assim. Até o Marco 3, vamos pedir a cada um a confirmação por escrito e voltar com a correção dos meses (Campo 4).
 
 ## Campo 4 — Obstáculo e replanejamento
 
-- **5 das 7 comparações externas deram erro de entrada.** Os comerciantes quiseram comparar do começo do ano até hoje, mas o mês atual e os seguintes ainda não têm IPCA divulgado; houve também um período acima de 5 anos e um mês final antes do inicial. A página não informa até que mês há dados. Replanejamento até o Marco 3: mostrar na página o último mês disponível, impedir a escolha de meses sem dado e escrever as mensagens de erro em linguagem simples.
+- **8 das 11 comparações externas deram erro de entrada.** A causa mais comum (5 casos) foi escolher o mês atual ou meses seguintes, que ainda não têm IPCA divulgado: os comerciantes queriam comparar até hoje. Houve também um período acima de 5 anos, um mês final antes do inicial e um preço digitado com espaço ("23, 63"). A página não informa até que mês há dados. Replanejamento até o Marco 3: mostrar na página o último mês disponível, impedir a escolha de meses sem dado, aceitar preços com espaço e escrever as mensagens de erro em linguagem simples.
 - **O uso externo ficou para o dia da entrega.** A visita e o teste com os comerciantes previstos para a semana de 02/11 não aconteceram por falta de tempo da equipe. A equipe toda fez a visita em 13/11 (cerca de 4h de deslocamento e teste) e entregou os links nesse dia. Replanejamento: voltar aos três comerciantes na semana de 16/11, já com a correção dos meses, e fazer a pergunta sobre a compreensão do resultado.
 - **O deploy atrasou.** Estava previsto para 18/10 e saiu em 01/11. Ainda assim, ficou antes do Marco 2, como o professor pediu.
 - **Registro do processo.** A semana de 19/10 foi registrada com atraso, em 01/11, e as correções de entradas antigas foram feitas numa entrada nova, sem reescrever as anteriores. Desde 26/10, as entradas são escritas na própria semana.
@@ -56,7 +56,7 @@ Pontuação conforme a rubrica do PDF `extensao/entrega-de-marco.pdf`. Nota = 10
 | Dimensão | n.a.? | Pts (0–2) | Por quê, em uma linha |
 | :-- | :-- | :-- | :-- |
 | D1 Qualidade técnica | não | 2 | Funciona de ponta a ponta no endereço público, com dados reais do Banco Central, cálculo determinístico, cópia de reserva e 31 testes passando. |
-| D2 Alcance e adequação ao público | não | 2 | Dois comerciantes usaram o produto com seus próprios preços, disseram que entenderam o resultado e o acharam útil|
+| D2 Alcance e adequação ao público | não | 2 | Três comerciantes usaram o produto com seus próprios preços e dois disseram que entenderam o resultado e o acharam útil. |
 | D3 Documentação e reprodutibilidade | não | 2 | O README traz o endereço público, os comandos para rodar e testar, a regra de cálculo e as instruções de publicação, e foi seguido em um clone limpo. |
 | D4 Registro do processo | não | 2 | Há entrada para todas as semanas desde o Marco 1 e correções registradas sem reescrever o passado. |
 | D5 Autoavaliação e reflexão | sim | — | A autoavaliação individual é em 04/12. |
